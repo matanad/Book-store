@@ -24,10 +24,17 @@ export class BookListComponent implements OnInit {
       this.maxPages = this.booksService.getMaxPages();
       this.books = books;
     });
+    this.booksService.$activeFilter.subscribe((res) => (this.filterBy = res));
   }
 
-  onChangePage(page: number) {
-    this.filterBy.pageIdx = page;
-    this.booksService.query(this.filterBy);
+  onChangePage(page: number, nextPrev: boolean = false) {
+    const filter = { ...this.filterBy };
+    if (!this.filterBy.pageIdx || !filter.pageIdx) return;
+    if (nextPrev)
+      if (filter.pageIdx + page < 1 || filter.pageIdx + page >= this.maxPages)
+        return;
+      else filter.pageIdx += page;
+    else filter.pageIdx = page;
+    this.booksService.query(filter);
   }
 }

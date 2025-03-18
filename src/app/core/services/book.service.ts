@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, map, Observable, of } from 'rxjs';
-import { saveAs } from 'file-saver';
+import { BehaviorSubject, max, Observable } from 'rxjs';
 import booksJSON from '../../../data/books.json';
 import { AsyncStorageService } from './async-storage.service';
 
@@ -8,10 +7,10 @@ import { AsyncStorageService } from './async-storage.service';
   providedIn: 'root',
 })
 export class BookService {
-  private _allBooks: Book[] = [];
   private _booksSub = new BehaviorSubject<Book[]>([]);
   public $books = this._booksSub.asObservable();
-  private _activeFilter: IFilter = {};
+  private _activeFilterSub = new BehaviorSubject<IFilter>({});
+  public $activeFilter = this._activeFilterSub.asObservable();
   private PAGE_SIZE: number = 12;
   private STORAGE_KEY = 'booksDB';
   private _maxPages = 1;
@@ -23,9 +22,9 @@ export class BookService {
   }
 
   query(filterBy: IFilter) {
+    this._activeFilterSub.next({ ...filterBy });
     this.storageService.query(this.STORAGE_KEY).subscribe(
       (res) => {
-        this._allBooks = res;
         let filteredBooks = res;
         filteredBooks = this._filterBooksByCriteria(filteredBooks, filterBy);
         filteredBooks = this._sortBooksBy(filteredBooks, filterBy);
@@ -41,10 +40,16 @@ export class BookService {
   }
 
   private _paginateBooks(books: Book[], filterBy: IFilter) {
-    this._maxPages = Math.ceil(books.length / this.PAGE_SIZE);
-    if (filterBy.pageIdx === undefined) return books;
-    const startIdx = +filterBy.pageIdx * this.PAGE_SIZE;
-    return books.slice(startIdx, this.PAGE_SIZE + startIdx);
+    this._maxPages =
+      Math.floor(books.length / this.PAGE_SIZE) +
+      (books.length % this.PAGE_SIZE ? 1 : 0);
+    if (filterBy.pageIdx === undefined || this._maxPages === 1) return books;
+    const startIdx = Math.min(
+      +(filterBy.pageIdx - 1) * this.PAGE_SIZE,
+      books.length
+    );
+    const endIdx = Math.min(startIdx + this.PAGE_SIZE, books.length);
+    return books.slice(startIdx, endIdx);
   }
 
   private _sortBooksBy(books: Book[], filterBy: IFilter): Book[] {
@@ -63,7 +68,7 @@ export class BookService {
       filterKeys.every((key) => {
         if (!filterBy[key]) return true;
         const regex = new RegExp(filterBy[key], 'i');
-        return regex.test(book[key as keyof Book]?.toString());
+        return regex.test(book[key as keyof Book].toString());
       })
     );
   }

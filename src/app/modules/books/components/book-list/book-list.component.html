@@ -8,12 +8,14 @@
   </li>
 </ul>
 <div class="paging-container">
+  <button (click)="onChangePage(-1, true)" class="paging-btn">prev</button>
   <button
-    *ngFor="let i of [].constructor(maxPages - 1); let index = index"
+    *ngFor="let i of [].constructor(maxPages); let index = index"
     class="paging-btn"
     [ngClass]="{ active: filterBy.pageIdx === index + 1 }"
     (click)="onChangePage(index + 1)"
   >
     {{ index + 1 }}
   </button>
+  <button class="paging-btn" (click)="onChangePage(1, true)">next</button>
 </div>
