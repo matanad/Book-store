@@ -1,1 +1,19 @@
-<p>book-list works!</p>
+<ul>
+  <li *ngFor="let book of books">
+    <img src="{{ book.imgUrl }}" alt="{{ book.title }}" />
+    <h1>{{ book.title | titlecase }}</h1>
+    <h2>by {{ book.author }}</h2>
+    <p>{{ book.category }}</p>
+    <p>{{ book.price | currency : "USD" }}</p>
+  </li>
+</ul>
+<div class="paging-container">
+  <button
+    *ngFor="let i of [].constructor(maxPages - 1); let index = index"
+    class="paging-btn"
+    [ngClass]="{ active: filterBy.pageIdx === index + 1 }"
+    (click)="onChangePage(index + 1)"
+  >
+    {{ index + 1 }}
+  </button>
+</div>

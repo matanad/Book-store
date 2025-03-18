@@ -1,1 +1,5 @@
-/* You can add global styles to this file, and also import other style files */
+@import "./assets/styles/setup/_variables.scss";
+
+@import "./assets/styles/basics/_base.scss";
+
+$some-color: red;

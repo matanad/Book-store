@@ -1,0 +1,60 @@
+@use "../../../../../assets/styles/setup/_variables.scss" as *;
+@use "../../../../../assets/styles/setup/_mixins.scss" as *;
+
+:host {
+  display: block;
+}
+
+ul {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  max-width: $layout-width;
+  margin: 0 auto;
+  min-height: calc(100vh - 180px);
+}
+
+li {
+  max-width: 160px;
+  margin-inline-end: 30px;
+  margin-bottom: 30px;
+}
+
+img {
+  width: 100%;
+  aspect-ratio: 3/4;
+}
+
+h1 {
+  font-size: 1rem;
+}
+
+h2 {
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.paging-container {
+  background-color: whitesmoke;
+  max-width: max-content;
+  margin: 0 auto;
+  border-radius: 5px;
+  overflow: hidden;
+  border: 0.5px solid black;
+}
+
+.paging-btn {
+  padding: 0 6px;
+  border: 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  background-color: transparent;
+
+  &:not(:last-child) {
+    border-inline-end: 0.5px solid black;
+  }
+}
+.active {
+  background-color: #85aa64;
+  color: white;
+}

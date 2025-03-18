@@ -1,0 +1,272 @@
+[
+  {
+    "id": "978-0743273565",
+    "title": "The Great Gatsby",
+    "author": "F. Scott Fitzgerald",
+    "description": "A novel about the American dream and the roaring twenties.",
+    "category": "Classic",
+    "imgUrl": "https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1650033243i/41733839.jpg",
+    "price": 10.99
+  },
+  {
+    "id": "978-0451524935",
+    "title": "1984",
+    "author": "George Orwell",
+    "description": "A dystopian novel set in a totalitarian society under constant surveillance.",
+    "category": "Dystopian",
+    "imgUrl": "https://www.univ.ox.ac.uk/wp-content/uploads/2018/11/1984.jpg",
+    "price": 9.99
+  },
+  {
+    "id": "978-0061120084",
+    "title": "To Kill a Mockingbird",
+    "author": "Harper Lee",
+    "description": "A story of racial injustice and childhood innocence in the American South.",
+    "category": "Classic",
+    "imgUrl": "https://m.media-amazon.com/images/I/71smIoGNeiL._UF1000,1000_QL80_.jpg",
+    "price": 12.99
+  },
+  {
+    "id": "978-1503290563",
+    "title": "Pride and Prejudice",
+    "author": "Jane Austen",
+    "description": "A romantic novel that critiques the British landed gentry of the early 19th century.",
+    "category": "Romance",
+    "imgUrl": "https://m.media-amazon.com/images/I/81gtKoapHFL._AC_UF1000,1000_QL80_.jpg",
+    "price": 8.99
+  },
+  {
+    "id": "978-0547928227",
+    "title": "The Hobbit",
+    "author": "J.R.R. Tolkien",
+    "description": "A fantasy novel about the journey of Bilbo Baggins.",
+    "category": "Fantasy",
+    "imgUrl": "https://m.media-amazon.com/images/I/81a4kCNuH+L._AC_UF1000,1000_QL80_.jpg",
+    "price": 14.99
+  },
+  {
+    "id": "978-1503280786",
+    "title": "Moby-Dick",
+    "author": "Herman Melville",
+    "description": "The narrative of Captain Ahab's obsessive quest to kill the white whale.",
+    "category": "Adventure",
+    "imgUrl": "https://m.media-amazon.com/images/I/712mdW4zCcL._AC_UF1000,1000_QL80_.jpg",
+    "price": 11.99
+  },
+  {
+    "id": "978-0307386155",
+    "title": "War and Peace",
+    "author": "Leo Tolstoy",
+    "description": "A historical novel that intertwines the lives of families during the Napoleonic Wars.",
+    "category": "Historical Fiction",
+    "imgUrl": "https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1681127703i/125209426.jpg",
+    "price": 15.99
+  },
+  {
+    "id": "978-0316769488",
+    "title": "The Catcher in the Rye",
+    "author": "J.D. Salinger",
+    "description": "A novel about teenage rebellion and angst.",
+    "category": "Classic",
+    "imgUrl": "https://m.media-amazon.com/images/I/81OthjkJBuL._AC_UF1000,1000_QL80_.jpg",
+    "price": 10.49
+  },
+  {
+    "id": "978-0060850524",
+    "title": "Brave New World",
+    "author": "Aldous Huxley",
+    "description": "A dystopian story about a scientifically advanced but emotionally hollow society.",
+    "category": "Dystopian",
+    "imgUrl": "https://cdn.waterstones.com/bookjackets/large/9781/7848/9781784870140.jpg",
+    "price": 13.99
+  },
+  {
+    "id": "978-0618640157",
+    "title": "The Lord of the Rings",
+    "author": "J.R.R. Tolkien",
+    "description": "An epic fantasy novel about the battle between good and evil in Middle-earth.",
+    "category": "Fantasy",
+    "imgUrl": "https://m.media-amazon.com/images/I/7125+5E40JL._AC_UF1000,1000_QL80_.jpg",
+    "price": 22.99
+  },
+  {
+    "id": "978-0486275497",
+    "title": "Crime and Punishment",
+    "author": "Fyodor Dostoevsky",
+    "description": "A psychological novel about crime, guilt, and redemption.",
+    "category": "Classic",
+    "imgUrl": "https://m.media-amazon.com/images/I/71O2XIytdqL.jpg",
+    "price": 14.49
+  },
+  {
+    "id": "978-0451530966",
+    "title": "Dracula",
+    "author": "Bram Stoker",
+    "description": "The classic Gothic horror novel introducing Count Dracula.",
+    "category": "Horror",
+    "imgUrl": "https://m.media-amazon.com/images/I/91wOUFZCE+L._UF1000,1000_QL80_.jpg",
+    "price": 9.89
+  },
+  {
+    "id": "978-0486266532",
+    "title": "Frankenstein",
+    "author": "Mary Shelley",
+    "description": "A gothic novel about a scientist who creates life but faces dire consequences.",
+    "category": "Horror",
+    "imgUrl": "https://m.media-amazon.com/images/I/710p9SUfZtL._AC_UF1000,1000_QL80_.jpg",
+    "price": 10.79
+  },
+  {
+    "id": "978-0141439570",
+    "title": "The Picture of Dorian Gray",
+    "author": "Oscar Wilde",
+    "description": "A novel about vanity, morality, and a cursed portrait.",
+    "category": "Classic",
+    "imgUrl": "https://d28hgpri8am2if.cloudfront.net/book_images/onix/cvr9781476788128/the-picture-of-dorian-gray-9781476788128_hr.jpg",
+    "price": 7.99
+  },
+  {
+    "id": "978-0061122415",
+    "title": "The Alchemist",
+    "author": "Paulo Coelho",
+    "description": "A novel about following one's dreams and personal legend.",
+    "category": "Philosophy",
+    "imgUrl": "https://m.media-amazon.com/images/I/61HAE8zahLL._AC_UF1000,1000_QL80_.jpg",
+    "price": 12.49
+  },
+  {
+    "id": "978-0062315007",
+    "title": "The Night Circus",
+    "author": "Erin Morgenstern",
+    "description": "A magical and mysterious story about a circus that only opens at night, filled with wonder and intrigue.",
+    "category": "Fantasy",
+    "imgUrl": "https://m.media-amazon.com/images/I/81wHpiNObnL.jpg",
+    "price": 13.49
+  },
+  {
+    "id": "978-0316334754",
+    "title": "A Song Of Ice And Fire",
+    "author": "George R.R. Martin",
+    "description": "A gripping epic fantasy novel that kicks off the *A Song of Ice and Fire* series, filled with political intrigue and drama.",
+    "category": "Fantasy",
+    "imgUrl": "https://upload.wikimedia.org/wikipedia/en/d/dc/A_Song_of_Ice_and_Fire_book_collection_box_set_cover.jpg",
+    "price": 14.99
+  },
+  {
+    "id": "978-1406310637",
+    "title": "The Hunger Games",
+    "author": "Suzanne Collins",
+    "description": "A dystopian tale where children are forced to compete in a televised death match.",
+    "category": "Dystopian",
+    "imgUrl": "https://m.media-amazon.com/images/I/71un2hI4mcL.jpg",
+    "price": 12.99
+  },
+  {
+    "id": "978-0143127741",
+    "title": "The Goldfinch",
+    "author": "Donna Tartt",
+    "description": "A Pulitzer Prize-winning novel following a boy's troubled life after a tragedy leads him to steal a painting.",
+    "category": "Fiction",
+    "imgUrl": "https://m.media-amazon.com/images/I/51kCei+c72L._AC_UF1000,1000_QL80_.jpg",
+    "price": 16.99
+  },
+  {
+    "id": "978-0062349050",
+    "title": "The Road",
+    "author": "Cormac McCarthy",
+    "description": "A bleak and poetic post-apocalyptic novel about a father and son traveling through a desolate world.",
+    "category": "Post-apocalyptic",
+    "imgUrl": "https://m.media-amazon.com/images/I/51M7XGLQTBL.jpg",
+    "price": 13.99
+  },
+  {
+    "id": "978-0385514231",
+    "title": "The Girl on the Train",
+    "author": "Paula Hawkins",
+    "description": "A psychological thriller about a woman who becomes involved in a missing person investigation after witnessing something on a train.",
+    "category": "Thriller",
+    "imgUrl": "https://m.media-amazon.com/images/I/81-Q2OAVeXL._AC_UF1000,1000_QL80_.jpg",
+    "price": 14.49
+  },
+  {
+    "id": "978-0553386790",
+    "title": "The Help",
+    "author": "Kathryn Stockett",
+    "description": "A novel about the lives of African-American maids in 1960s Mississippi.",
+    "category": "Historical Fiction",
+    "imgUrl": "https://m.media-amazon.com/images/I/61taK-2tICL.jpg",
+    "price": 13.79
+  },
+  {
+    "id": "978-0062566373",
+    "title": "The Nightingale",
+    "author": "Kristin Hannah",
+    "description": "A historical fiction novel about two sisters navigating their lives in Nazi-occupied France during World War II.",
+    "category": "Historical Fiction",
+    "imgUrl": "https://m.media-amazon.com/images/I/81OkWjcf4WL.jpg",
+    "price": 15.99
+  },
+  {
+    "id": "978-0765376671",
+    "title": "Ready Player One",
+    "author": "Ernest Cline",
+    "description": "A dystopian science fiction novel about a virtual reality treasure hunt set in the future.",
+    "category": "Science Fiction",
+    "imgUrl": "https://m.media-amazon.com/images/I/91FGDm7MfIL.jpg",
+    "price": 12.99
+  },
+  {
+    "id": "978-0062963673",
+    "title": "The Silent Patient",
+    "author": "Alex Michaelides",
+    "description": "A psychological thriller about a woman who shoots her husband and then refuses to speak.",
+    "category": "Thriller",
+    "imgUrl": "https://m.media-amazon.com/images/I/91lslnZ-btL.jpg",
+    "price": 16.99
+  },
+  {
+    "id": "978-0345803481",
+    "title": "Fifty Shades of Grey",
+    "author": "E.L. James",
+    "description": "A romantic drama about a young woman who becomes involved in a passionate and unconventional relationship.",
+    "category": "Romance",
+    "imgUrl": "https://m.media-amazon.com/images/I/810BkqRP+iL._AC_UF1000,1000_QL80_.jpg",
+    "price": 10.99
+  },
+  {
+    "id": "978-0747532699",
+    "title": "Harry Potter and the Sorcerer's Stone",
+    "author": "J.K. Rowling",
+    "description": "The first book in the Harry Potter series, where Harry discovers he is a wizard and embarks on a magical adventure at Hogwarts School of Witchcraft and Wizardry.",
+    "category": "Fantasy",
+    "imgUrl": "https://m.media-amazon.com/images/I/819GoteowlL._UF1000,1000_QL80_.jpg",
+    "price": 10.99
+  },
+  {
+    "id": "978-0140276336",
+    "title": "The Secret History",
+    "author": "Donna Tartt",
+    "description": "A group of college students are drawn into a mysterious and dark world after a murder.",
+    "category": "Mystery",
+    "imgUrl": "https://m.media-amazon.com/images/I/81YhQfeiynL.jpg",
+    "price": 14.99
+  },
+  {
+    "id": "978-0735211292",
+    "title": "Becoming",
+    "author": "Michelle Obama",
+    "description": "The memoir of Michelle Obama, covering her life from childhood to becoming the First Lady of the United States.",
+    "category": "Memoir",
+    "imgUrl": "https://m.media-amazon.com/images/I/81cJTmFpG-L._AC_UF1000,1000_QL80_.jpg",
+    "price": 17.99
+  },
+  {
+    "id": "978-9655522006",
+    "title": "Bibi: The Story of My Life",
+    "author": "Benjamin Netanyahu",
+    "description": "The autobiography of Israeli Prime Minister Benjamin Netanyahu, where he shares his life story, political career, and the challenges he faced over the years.",
+    "category": "Autobiography",
+    "imgUrl": "https://m.media-amazon.com/images/I/71dsNcn-i3L._AC_UF1000,1000_QL80_.jpg",
+    "price": 25.99
+  }
+]
