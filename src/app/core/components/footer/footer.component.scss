@@ -1,0 +1,8 @@
+@use "../../../../assets/styles/setup/_variables.scss" as *;
+
+:host {
+  display: block;
+  background-color: $accent-color;
+  box-shadow: -1px -2px 0 rgba(0, 0, 0, 0.15);
+  height: 80px;
+}

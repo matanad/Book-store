@@ -1,15 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { HomeComponent } from './modules/home/home.component';
-import { BookListComponent } from './modules/books/components/book-list/book-list.component';
 
 const routes: Routes = [
-  { path: '', component: BookListComponent },
-  {
-    path: 'books',
-    loadChildren: () =>
-      import('./modules/books/books.module').then((m) => m.BooksModule),
-  },
   {
     path: 'cart',
     loadChildren: () =>
@@ -24,6 +16,11 @@ const routes: Routes = [
     path: 'admin',
     loadChildren: () =>
       import('./modules/admin/admin.module').then((m) => m.AdminModule),
+  },
+  {
+    path: '',
+    loadChildren: () =>
+      import('./modules/books/books.module').then((m) => m.BooksModule),
   },
 ];
 

@@ -4,6 +4,7 @@ import {
   BookService,
   IFilter,
 } from '../../../../core/services/book.service';
+import { CartService } from '../../../../core/services/cart.service';
 
 @Component({
   selector: 'app-book-list',
@@ -15,14 +16,19 @@ export class BookListComponent implements OnInit {
   books: Book[] = [];
   maxPages: number = 1;
   filterBy: IFilter = { pageIdx: 1 };
+  isLoading: boolean = true;
 
-  constructor(private booksService: BookService) {}
+  constructor(
+    private booksService: BookService,
+    private cartService: CartService
+  ) {}
 
   ngOnInit(): void {
     this.booksService.query(this.filterBy);
     this.booksService.$books.subscribe((books) => {
       this.maxPages = this.booksService.getMaxPages();
       this.books = books;
+      this.isLoading = false;
     });
     this.booksService.$activeFilter.subscribe((res) => (this.filterBy = res));
   }
@@ -35,6 +41,12 @@ export class BookListComponent implements OnInit {
         return;
       else filter.pageIdx += page;
     else filter.pageIdx = page;
+    this.isLoading = true;
     this.booksService.query(filter);
+  }
+
+  addToCart(event: MouseEvent, bookId: string) {
+    event.stopPropagation();
+    this.cartService.addBook(bookId);
   }
 }

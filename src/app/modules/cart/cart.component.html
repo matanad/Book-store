@@ -1,1 +1,56 @@
-<p>cart works!</p>
+<table>
+  <thead>
+    <th>cover</th>
+    <th>title</th>
+    <th>author</th>
+    <th>date added</th>
+    <th>price</th>
+    <th>quantity</th>
+  </thead>
+  <tbody>
+    <tr *ngFor="let book of books; let i = index">
+      <td>
+        <label for="cover">cover</label>
+        <a class="book-cover-container" [routerLink]="['', book.id]">
+          <img [src]="book.imgUrl" [alt]="book.title" />
+        </a>
+      </td>
+      <td>
+        <label for="title">title</label>
+        <a class="book-title-container" [routerLink]="['', book.id]">{{
+          book.title
+        }}</a>
+      </td>
+      <td>
+        <label for="author">author</label>
+        <a class="book-author-container" [routerLink]="['', book.id]">{{
+          book.author
+        }}</a>
+      </td>
+      <td>
+        <label for="date added">date added</label>
+        <p class="book-date-added-container">
+          {{ cartItems[i].dateAdded | date }}
+        </p>
+      </td>
+      <td>
+        <label for="price">price</label>
+        <p class="book-price">
+          {{ book.price | currency }}
+        </p>
+      </td>
+      <td>
+        <label for="quantity">quantity</label>
+        <p class="book-quantity">
+          {{ cartItems[i].quantity }}
+        </p>
+      </td>
+    </tr>
+  </tbody>
+  <tfoot>
+    sum:
+    {{
+      cartSum() | currency
+    }}
+  </tfoot>
+</table>

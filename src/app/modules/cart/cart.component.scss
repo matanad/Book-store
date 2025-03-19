@@ -1,0 +1,42 @@
+:host{
+    display: block;
+    padding-block: 20px;
+}
+
+table{
+    max-width: 900px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+th{
+    text-align: start;
+}
+
+img {
+  max-width: 100px;
+}
+
+label {
+  display: none;
+}
+
+tr{
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.15);
+}
+
+td{
+    padding-block: 18px;
+}
+
+a{
+    cursor: pointer;
+    text-decoration: none;
+    color: inherit;
+    &:hover{
+        text-decoration: underline;
+    }
+    &:visited{
+        color: inherit;
+    }
+}

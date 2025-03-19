@@ -17,11 +17,8 @@ export class AsyncStorageService {
       map((entities) => {
         const entity = entities.find((entity) => entity.id === entityId);
         if (!entity)
-          throwError(
-            () =>
-              new Error(
-                `Get failed, cannot find entity with id: ${entityId} in: ${entityType}`
-              )
+          throw new Error(
+            `Get failed, cannot find entity with id: ${entityId} in: ${entityType}`
           );
         return entity;
       })

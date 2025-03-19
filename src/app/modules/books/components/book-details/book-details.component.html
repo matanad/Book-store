@@ -1,1 +1,21 @@
-<p>book-details works!</p>
+<div class="picture-container">
+  <img [src]="book.imgUrl" [alt]="book.title" />
+  <button class="add-to-cart-btn">
+    Add to cart {{ book.price | currency }}
+  </button>
+</div>
+<div class="info-container">
+  <h1>{{ book.title }}</h1>
+  <h2>by {{ book.author }}</h2>
+  <p>{{ book.description }}</p>
+  <p *ngIf="book.description.length < 100">
+    Lorem ipsum, dolor sit amet consectetur adipisicing elit. Officiis laborum,
+    voluptatem autem doloremque obcaecati, pariatur aperiam dolor iste
+    repudiandae fuga officia fugit cumque tenetur culpa labore repellat error
+    eligendi eius! Architecto, eos accusamus blanditiis sed rem voluptatum iste
+    qui et sit optio dignissimos, necessitatibus saepe doloribus quidem tenetur?
+    Perspiciatis laboriosam earum id veritatis aut animi vel possimus culpa
+    aliquam ad?
+  </p>
+  <p>Genre: {{ book.category }}</p>
+</div>
