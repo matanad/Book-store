@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Book, BookService } from '../../../../core/services/book.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { map, take } from 'rxjs';
+import { CartService } from '../../../../core/services/cart.service';
 
 @Component({
   selector: 'app-book-details',
@@ -15,7 +16,8 @@ export class BookDetailsComponent implements OnInit {
   constructor(
     private activatedRouter: ActivatedRoute,
     private router: Router,
-    private booksService: BookService
+    private booksService: BookService,
+    private cartService: CartService
   ) {}
 
   ngOnInit(): void {
@@ -34,5 +36,10 @@ export class BookDetailsComponent implements OnInit {
           },
         });
     });
+  }
+
+  addToCart(event: MouseEvent, bookId: string) {
+    event.stopPropagation();
+    this.cartService.addBook(bookId);
   }
 }

@@ -44,11 +44,8 @@ export class AsyncStorageService {
           (entity) => entity.id === updatedEntity.id
         );
         if (idx < 0)
-          return throwError(
-            () =>
-              new Error(
-                `Update failed, cannot find entity with id: ${updatedEntity.id} in: ${entityType}`
-              )
+          throw new Error(
+            `Update failed, cannot find entity with id: ${updatedEntity.id} in: ${entityType}`
           );
         entities.splice(idx, 1, updatedEntity);
         this._save(entityType, entities);

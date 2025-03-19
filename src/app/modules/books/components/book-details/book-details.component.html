@@ -1,6 +1,6 @@
 <div class="picture-container">
   <img [src]="book.imgUrl" [alt]="book.title" />
-  <button class="add-to-cart-btn">
+  <button class="add-to-cart-btn" (click)="addToCart($event, book.id)">
     Add to cart {{ book.price | currency }}
   </button>
 </div>
