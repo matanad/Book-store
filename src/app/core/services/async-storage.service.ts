@@ -12,13 +12,13 @@ export class AsyncStorageService {
     return of(entities).pipe(delay(delayTime));
   }
 
-  get(entityType: string, entityId: string) {
+  get<T>(entityType: string, entityId: string): Observable<T> {
     return this.query(entityType).pipe(
       map((entities) => {
         const entity = entities.find((entity) => entity.id === entityId);
         if (!entity)
           throw new Error(
-            `Get failed, cannot find entity with id: ${entityId} in: ${entityType}`
+            `404 Not Found: Entity with ID '${entityId}' was not found in '${entityType}'.`
           );
         return entity;
       })
@@ -43,11 +43,15 @@ export class AsyncStorageService {
         const idx = entities.findIndex(
           (entity) => entity.id === updatedEntity.id
         );
+        console.log('idx:', idx);
         if (idx < 0)
           throw new Error(
             `Update failed, cannot find entity with id: ${updatedEntity.id} in: ${entityType}`
           );
-        entities.splice(idx, 1, updatedEntity);
+        // entities.splice(idx, 1, updatedEntity);
+        console.log(idx);
+
+        entities[idx] = { ...updatedEntity };
         this._save(entityType, entities);
         return updatedEntity;
       })
@@ -67,7 +71,7 @@ export class AsyncStorageService {
           );
         const removedEntity = entities.splice(idx, 1);
         this._save(entityType, entities);
-        return removedEntity[0]; // מחזירים את הישויות שהוסרו
+        return removedEntity[0];
       })
     );
   }

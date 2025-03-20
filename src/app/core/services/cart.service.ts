@@ -6,49 +6,94 @@ import { AsyncStorageService } from './async-storage.service';
   providedIn: 'root',
 })
 export class CartService {
-  private _cartItemsSub = new BehaviorSubject<ICart[]>([] as ICart[]);
+  private _cartItemsSub = new BehaviorSubject<ICartItem[]>([] as ICartItem[]);
   $cartItems = this._cartItemsSub.asObservable();
   private _cartCounterSub = new BehaviorSubject<number>(0);
   $cartCounter = this._cartCounterSub.asObservable();
   private CART_DB = 'cartDB';
+  private USER_ID = 'fsdf456';
+  private _cart: Cart = new Cart(this.USER_ID);
 
   constructor(private storageService: AsyncStorageService) {
     this.query();
   }
 
-  query() {
-    this.storageService.query(this.CART_DB).subscribe({
+  query(userId: string = this.USER_ID) {
+    this.storageService.get<ICart>(this.CART_DB, userId).subscribe({
       next: (cart) => {
-        this._cartItemsSub.next(cart);
-        this._cartCounterSub.next(cart[0].cartCounter);
+        this._cart = cart;
+        this._cartItemsSub.next(cart.items);
+        this._cartCounterSub.next(cart.cartCounter);
       },
       error: (err) => console.log(err),
     });
   }
 
   addBook(bookId: string) {
-    let cartItem: ICart = { bookId, dateAdded: new Date(), quantity: 1 };
-    const cartItemIdx = this._cartItemsSub.value.findIndex(
-      (item) => item.bookId === bookId
-    );
+    let cartItem: CartItem = new CartItem(bookId);
+    console.log('this._cart.items', this._cart.items);
 
-    if (cartItemIdx !== -1) this._cartItemsSub.value[cartItemIdx].quantity++;
-    else this._cartItemsSub.next([...this._cartItemsSub.value, cartItem]);
-    this._cartCounterSub.next(this._cartCounterSub.value + 1);
-    this.storageService
-      .post(this.CART_DB, {
-        cartItems: this._cartItemsSub.value,
-        cartCounter: this._cartCounterSub.value,
-      })
-      .subscribe({
-        next: (s) => console.log(s),
-        error: (err) => console.error(err),
+    let cartItemIdx = this._cart.items.findIndex((item) => item.id === bookId);
+
+    if (cartItemIdx >= 0) {
+      this._cart.items[cartItemIdx].quantity++;
+      this._cart.cartCounter++;
+      this.storageService.put(this.CART_DB, this._cart).subscribe({
+        next: (cart) => {
+          this._cartCounterSub.next(cart.cartCounter);
+          this._cartItemsSub.next(cart.items);
+          this._cart = cart;
+        },
+        error: (err) => {
+          this._cart.items[cartItemIdx].quantity--;
+          this._cart.cartCounter--;
+          console.error(err);
+        },
       });
+    } else {
+      this._cart.items.push(cartItem);
+      this._cart.cartCounter++;
+      this.storageService.post(this.CART_DB, this._cart).subscribe({
+        next: (cart) => {
+          this._cartCounterSub.next(cart.cartCounter);
+          this._cartItemsSub.next(cart.items);
+        },
+        error: (err) => {
+          this._cart.items.pop();
+          this._cart.cartCounter--;
+          console.error(err);
+        },
+      });
+    }
   }
 }
 
-export interface ICart {
-  bookId: string;
+export interface ICartItem {
+  id: string;
   dateAdded: Date;
   quantity: number;
+}
+
+interface ICart {
+  id: string;
+  createdAt: Date;
+  items: ICartItem[];
+  cartCounter: number;
+}
+
+class Cart implements ICart {
+  constructor(
+    public id: string,
+    public createdAt: Date = new Date(),
+    public items: ICartItem[] = [],
+    public cartCounter: number = 0
+  ) {}
+}
+
+class CartItem implements ICartItem {
+  constructor(
+    public id: string,
+    public dateAdded: Date = new Date(),
+    public quantity: number = 1
+  ) {}
 }

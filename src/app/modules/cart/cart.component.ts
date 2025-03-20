@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CartService, ICart } from '../../core/services/cart.service';
+import { CartService, ICartItem } from '../../core/services/cart.service';
 import { Book, BookService } from '../../core/services/book.service';
 
 @Component({
@@ -10,7 +10,7 @@ import { Book, BookService } from '../../core/services/book.service';
 })
 export class CartComponent implements OnInit {
   books: Book[] = [];
-  cartItems: ICart[] = [];
+  cartItems: ICartItem[] = [];
 
   constructor(
     private cartService: CartService,
@@ -22,7 +22,7 @@ export class CartComponent implements OnInit {
       next: (items) => {
         this.cartItems = items;
         this.cartItems.forEach((cartItem) => {
-          this.booksService.getById(cartItem.bookId).subscribe({
+          this.booksService.getById(cartItem.id).subscribe({
             next: (book) => this.books.push(book),
           });
         });
