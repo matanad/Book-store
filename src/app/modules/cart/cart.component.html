@@ -8,7 +8,7 @@
     <th>quantity</th>
   </thead>
   <tbody>
-    <tr *ngFor="let book of books; let i = index">
+    <tr *ngFor="let book of books; let i = index; trackBy: trackBy">
       <td>
         <label for="cover">cover</label>
         <a class="book-cover-container" [routerLink]="['', book.id]">
@@ -39,11 +39,13 @@
           {{ book.price | currency }}
         </p>
       </td>
-      <td>
+      <td class="book-quantity-container">
         <label for="quantity">quantity</label>
+        <button class="remove-btn" (click)="removeOne(book.id)">-</button>
         <p class="book-quantity">
           {{ cartItems[i].quantity }}
         </p>
+        <button class="add-btn" (click)="addToCart($event, book.id)">+</button>
       </td>
     </tr>
   </tbody>

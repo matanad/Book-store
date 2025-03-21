@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { Book, BookService } from '../../../../core/services/book.service';
+import {
+  Book,
+  BookService,
+  IFilter,
+} from '../../../../core/services/book.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { map, take } from 'rxjs';
 import { CartService } from '../../../../core/services/cart.service';
@@ -41,5 +45,11 @@ export class BookDetailsComponent implements OnInit {
   addToCart(event: MouseEvent, bookId: string) {
     event.stopPropagation();
     this.cartService.addBook(bookId);
+  }
+
+  onGenereClick(category: string) {
+    const filter: IFilter = { pageIdx: 1, category };
+    this.booksService.query(filter);
+    this.router.navigateByUrl('');
   }
 }

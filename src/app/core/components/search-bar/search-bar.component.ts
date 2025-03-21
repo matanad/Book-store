@@ -10,16 +10,28 @@ import { BookService, IFilter } from '../../services/book.service';
 export class SearchBarComponent {
   search = '';
   filter: IFilter = {};
+  filterType = 'title';
 
   constructor(private booksService: BookService) {
-    booksService.$activeFilter.subscribe((res) => (this.filter = res));
+    booksService.$activeFilter.subscribe((filter) => {
+      this.filter = filter;
+      if (this.filter.title) {
+        this.search = this.filter.title;
+        this.filterType = 'title';
+      }
+      if (this.filter.author) {
+        this.search = this.filter.author;
+        this.filterType = 'author';
+      }
+      if (this.filter.category) {
+        this.search = this.filter.category;
+        this.filterType = 'category';
+      }
+    });
   }
 
   onInput() {
-    this.filter.title = this.search;
-    // this.filter.author = this.search;
-    // this.filter.category = this.search;
-    // this.filter.description = this.search;
+    this.filter[this.filterType] = this.search;
     this.booksService.query(this.filter);
   }
 }

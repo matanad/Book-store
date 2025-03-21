@@ -24,6 +24,9 @@ export class BookListComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.booksService.$activeFilter.subscribe((filter) => {
+      this.filterBy = { ...filter, ...this.filterBy };
+    });
     this.booksService.query(this.filterBy);
     this.booksService.$books.subscribe((books) => {
       this.maxPages = this.booksService.getMaxPages();

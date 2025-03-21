@@ -31,7 +31,7 @@ export class BookService {
         filteredBooks = this._paginateBooks(filteredBooks, filterBy);
         this._booksSub.next(filteredBooks);
       },
-      (err) => console.log(err)
+      (err) => console.error(err)
     );
   }
 

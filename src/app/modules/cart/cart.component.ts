@@ -23,7 +23,13 @@ export class CartComponent implements OnInit {
         this.cartItems = items;
         this.cartItems.forEach((cartItem) => {
           this.booksService.getById(cartItem.id).subscribe({
-            next: (book) => this.books.push(book),
+            next: (book) => {
+              let bookIdx = this.books.findIndex(
+                (book) => book.id === cartItem.id
+              );
+              if (bookIdx === -1) this.books.push(book);
+              else this.books[bookIdx] = book;
+            },
           });
         });
       },
@@ -36,5 +42,18 @@ export class CartComponent implements OnInit {
       sum += books.price * this.cartItems[index].quantity;
     });
     return sum;
+  }
+
+  addToCart(event: MouseEvent, bookId: string) {
+    event.stopPropagation();
+    this.cartService.addBook(bookId);
+  }
+
+  removeOne(bookId: string) {
+    this.cartService.removeOne(bookId);
+  }
+
+  trackBy(index: number, item: Book) {
+    return item.id;
   }
 }

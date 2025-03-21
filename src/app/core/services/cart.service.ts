@@ -31,8 +31,6 @@ export class CartService {
 
   addBook(bookId: string) {
     let cartItem: CartItem = new CartItem(bookId);
-    console.log('this._cart.items', this._cart.items);
-
     let cartItemIdx = this._cart.items.findIndex((item) => item.id === bookId);
 
     if (cartItemIdx >= 0) {
@@ -43,6 +41,7 @@ export class CartService {
           this._cartCounterSub.next(cart.cartCounter);
           this._cartItemsSub.next(cart.items);
           this._cart = cart;
+          console.log(cart);
         },
         error: (err) => {
           this._cart.items[cartItemIdx].quantity--;
@@ -65,6 +64,26 @@ export class CartService {
         },
       });
     }
+  }
+
+  removeOne(bookId: string) {
+    let cartItemIdx = this._cart.items.findIndex((item) => item.id === bookId);
+    let cartItem = this._cart.items[cartItemIdx];
+    if (cartItem == undefined || cartItem.quantity === 0) return;
+
+    cartItem.quantity--;
+    this._cart.cartCounter--;
+    this.storageService.put(this.CART_DB, this._cart).subscribe({
+      next: (cart) => {
+        this._cartItemsSub.next(cart.items);
+        this._cartCounterSub.next(cart.cartCounter);
+      },
+      error: (err) => {
+        cartItem.quantity++;
+        this._cart.cartCounter++;
+        console.error(err);
+      },
+    });
   }
 }
 

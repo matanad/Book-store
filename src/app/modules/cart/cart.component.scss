@@ -1,16 +1,16 @@
-:host{
-    display: block;
-    padding-block: 20px;
+:host {
+  display: block;
+  padding-block: 20px;
 }
 
-table{
-    max-width: 900px;
-    width: 100%;
-    margin: 0 auto;
+table {
+  max-width: 900px;
+  width: 100%;
+  margin: 0 auto;
 }
 
-th{
-    text-align: start;
+th {
+  text-align: start;
 }
 
 img {
@@ -21,22 +21,36 @@ label {
   display: none;
 }
 
-tr{
-    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.15);
+tr {
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.15);
 }
 
-td{
-    padding-block: 18px;
+td {
+  padding-block: 18px;
 }
 
-a{
-    cursor: pointer;
-    text-decoration: none;
+a {
+  cursor: pointer;
+  text-decoration: none;
+  color: inherit;
+  &:hover {
+    text-decoration: underline;
+  }
+  &:visited {
     color: inherit;
-    &:hover{
-        text-decoration: underline;
-    }
-    &:visited{
-        color: inherit;
-    }
+  }
+}
+
+.book-quantity-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 1.5rem;
+    padding: 0 10px;
+  }
 }
