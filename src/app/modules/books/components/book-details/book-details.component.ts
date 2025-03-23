@@ -1,12 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  Book,
-  BookService,
-  IFilter,
-} from '../../../../core/services/book.service';
+import { BookService } from '../../../../core/services/book.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { map, take } from 'rxjs';
 import { CartService } from '../../../../core/services/cart.service';
+import { Book, IBooksFilter } from '../../../../core/models/book.model';
 
 @Component({
   selector: 'app-book-details',
@@ -48,7 +45,7 @@ export class BookDetailsComponent implements OnInit {
   }
 
   onGenereClick(category: string) {
-    const filter: IFilter = { pageIdx: 1, category };
+    const filter: IBooksFilter = { pageIdx: 1, category };
     this.booksService.query(filter);
     this.router.navigateByUrl('');
   }

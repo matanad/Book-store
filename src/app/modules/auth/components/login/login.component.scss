@@ -1,0 +1,66 @@
+@use "../../../../../assets/styles/setup/_variables.scss" as *;
+
+:host {
+  display: block;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  padding: 56px 72px;
+  background-color: #fff;
+  border-radius: 50px;
+  width: 100%;
+}
+
+.input-wrapper {
+  width: 100%;
+  margin-bottom: 12px;
+}
+
+mat-form-field,
+input {
+  width: 100%;
+}
+
+.input-error {
+  position: relative;
+  top: -14px;
+  color: #e62429;
+  line-height: 1.25rem;
+  padding: 4px 0 0;
+  font-size: 0.75rem;
+}
+
+button {
+  color: #fff;
+  border: none;
+  background-color: $background-color;
+  width: 100%;
+  margin-top: 24px;
+
+  &:disabled {
+    background-color: $background-color-dark;
+  }
+
+  span {
+    transform: none;
+  }
+}
+
+.login-suggest {
+  margin-top: 24px;
+  cursor: pointer;
+  text-decoration: none;
+  color: inherit;
+
+  &:visited {
+    color: inherit;
+    text-decoration: none;
+  }
+  &:hover {
+    color: #e62429;
+    text-decoration: underline;
+  }
+}

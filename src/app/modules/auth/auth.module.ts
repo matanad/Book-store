@@ -4,21 +4,21 @@ import { RouterModule } from '@angular/router';
 import { AuthRoutingModule } from './auth-routing.module';
 import { SignupComponent } from './components/signup/signup.component';
 import { LoginComponent } from './components/login/login.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatCommonModule } from '@angular/material/core';
+import { AuthScreenComponent } from './components/auth-screen/auth-screen.component';
 
 @NgModule({
-  declarations: [SignupComponent, LoginComponent],
+  declarations: [SignupComponent, LoginComponent, AuthScreenComponent],
   imports: [
     CommonModule,
     AuthRoutingModule,
     RouterModule,
     FormsModule,
-    MatInputModule,
+    ReactiveFormsModule,
     MatFormFieldModule,
-    MatCommonModule,
+    MatInputModule,
   ],
 })
 export class AuthModule {}

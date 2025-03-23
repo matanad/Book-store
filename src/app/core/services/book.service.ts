@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, max, Observable } from 'rxjs';
 import booksJSON from '../../../data/books.json';
 import { AsyncStorageService } from './async-storage.service';
+import { Book, IBooksFilter } from '../models/book.model';
 
 @Injectable({
   providedIn: 'root',
@@ -9,7 +10,7 @@ import { AsyncStorageService } from './async-storage.service';
 export class BookService {
   private _booksSub = new BehaviorSubject<Book[]>([]);
   public $books = this._booksSub.asObservable();
-  private _activeFilterSub = new BehaviorSubject<IFilter>({});
+  private _activeFilterSub = new BehaviorSubject<IBooksFilter>({});
   public $activeFilter = this._activeFilterSub.asObservable();
   private PAGE_SIZE: number = 12;
   private STORAGE_KEY = 'booksDB';
@@ -21,7 +22,7 @@ export class BookService {
       localStorage.setItem(this.STORAGE_KEY, JSON.stringify(booksJSON));
   }
 
-  query(filterBy: IFilter) {
+  query(filterBy: IBooksFilter) {
     this._activeFilterSub.next({ ...filterBy });
     this.storageService.query<Book>(this.STORAGE_KEY).subscribe(
       (res) => {
@@ -39,7 +40,7 @@ export class BookService {
     return this._maxPages;
   }
 
-  private _paginateBooks(books: Book[], filterBy: IFilter) {
+  private _paginateBooks(books: Book[], filterBy: IBooksFilter) {
     this._maxPages =
       Math.floor(books.length / this.PAGE_SIZE) +
       (books.length % this.PAGE_SIZE ? 1 : 0);
@@ -52,7 +53,7 @@ export class BookService {
     return books.slice(startIdx, endIdx);
   }
 
-  private _sortBooksBy(books: Book[], filterBy: IFilter): Book[] {
+  private _sortBooksBy(books: Book[], filterBy: IBooksFilter): Book[] {
     if (!filterBy.sort) return books;
     const sortBy = filterBy.sort as keyof Book;
     return books.sort(
@@ -62,7 +63,7 @@ export class BookService {
     );
   }
 
-  private _filterBooksByCriteria(books: Book[], filterBy: IFilter): Book[] {
+  private _filterBooksByCriteria(books: Book[], filterBy: IBooksFilter): Book[] {
     const filterKeys = ['title', 'description', 'author', 'category'];
     return books.filter((book) =>
       filterKeys.every((key) => {
@@ -85,49 +86,4 @@ export class BookService {
     if (book.id) return this.storageService.put(this.STORAGE_KEY, book);
     else return this.storageService.post(this.STORAGE_KEY, book);
   }
-}
-
-interface IBook {
-  id: string;
-  title: string;
-  author: string;
-  description: string;
-  category: string;
-  imgUrl: string;
-  price: number;
-}
-
-export class Book implements IBook {
-  constructor(
-    public id: string,
-    public title: string,
-    public author: string,
-    public description: string,
-    public category: string,
-    public imgUrl: string,
-    public price: number
-  ) {}
-
-  static fromJson(bookJson: any): Book {
-    return new Book(
-      bookJson.id,
-      bookJson.title,
-      bookJson.author,
-      bookJson.description,
-      bookJson.category,
-      bookJson.imgUrl,
-      bookJson.price
-    );
-  }
-}
-
-export interface IFilter {
-  pageIdx?: number;
-  sort?: string;
-  order?: number;
-  title?: string;
-  description?: string;
-  author?: string;
-  category?: string;
-  [key: string]: any;
 }

@@ -1,10 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  Book,
-  BookService,
-  IFilter,
-} from '../../../../core/services/book.service';
+import { BookService } from '../../../../core/services/book.service';
 import { CartService } from '../../../../core/services/cart.service';
+import { Book, IBooksFilter } from '../../../../core/models/book.model';
 
 @Component({
   selector: 'app-book-list',
@@ -15,7 +12,7 @@ import { CartService } from '../../../../core/services/cart.service';
 export class BookListComponent implements OnInit {
   books: Book[] = [];
   maxPages: number = 1;
-  filterBy: IFilter = { pageIdx: 1 };
+  filterBy: IBooksFilter = { pageIdx: 1 };
   isLoading: boolean = true;
 
   constructor(

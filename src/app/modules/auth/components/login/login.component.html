@@ -1,8 +1,7 @@
 <form #loginForm="ngForm" (ngSubmit)="handleSubmit(loginForm)">
-  <h1>Enter your email and password to login</h1>
   <div class="input-wrapper">
-    <mat-form-field>
-      <mat-label>Email</mat-label>
+    <mat-form-field appearance="outline">
+      <mat-label>Enter your email</mat-label>
       <input
         matInput
         type="text"
@@ -18,8 +17,8 @@
     </span>
   </div>
   <div class="input-wrapper">
-    <mat-form-field>
-      <mat-label>Password</mat-label>
+    <mat-form-field appearance="outline">
+      <mat-label>Enter your password</mat-label>
       <input
         matInput
         type="password"
@@ -39,7 +38,4 @@
   <button type="submit" [disabled]="!loginForm.valid">
     <span>Login</span>
   </button>
-  <a class="login-suggest" [routerLink]="['/auth/signup']"
-    >Don't have an account? Sign up here to get started!</a
-  >
 </form>

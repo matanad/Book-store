@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
+import { UserService } from '../../../../core/services/user.service';
+import { take } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -13,19 +15,21 @@ export class LoginComponent {
   password: string = '';
   isUserValid = false;
 
-  constructor(private router: Router) //  private userService: UserService
-  {}
+  constructor(private router: Router, private userService: UserService) {}
 
   ngOnInit(): void {}
 
   handleSubmit(form: NgForm) {
-    // this.userService
-    //   .login(this.email, this.password)
-    //   .subscribe(({ success }) => {
-    //     if (success) {
-    //       this.isUserValid = true;
-    //       this.router.navigate(['']);
-    //     } else this.isUserValid = false;
-    //   });
+    this.isUserValid = true;
+    this.userService
+      .login(this.email, this.password)
+      .pipe(take(1))
+      .subscribe((res) => {
+        if (res) {
+          this.router.navigate(['/']);
+        } else {
+          this.isUserValid = false;
+        }
+      });
   }
 }

@@ -58,7 +58,6 @@ export class AsyncStorageService {
           throw new Error(
             `Update failed, cannot find entity with id: ${updatedEntity.id} in: ${entityType}`
           );
-        // entities.splice(idx, 1, updatedEntity);
         console.log(idx);
 
         entities[idx] = { ...updatedEntity };

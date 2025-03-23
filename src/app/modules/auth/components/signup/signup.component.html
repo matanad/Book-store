@@ -1,1 +1,53 @@
-<p>signup works!</p>
+<form [formGroup]="signupForm" (ngSubmit)="onSignUp()">
+  <div class="input-wrapper">
+    <mat-form-field appearance="outline">
+      <mat-label>First name</mat-label>
+      <input matInput type="text" formControlName="firstName" />
+    </mat-form-field>
+    <span *ngIf="firstName?.touched && firstName?.invalid" class="input-error">
+      Please enter your first name.
+    </span>
+  </div>
+  <div class="input-wrapper">
+    <mat-form-field appearance="outline">
+      <mat-label>Last name</mat-label>
+      <input matInput type="text" formControlName="lastName" />
+    </mat-form-field>
+    <span *ngIf="lastName?.invalid && lastName?.touched" class="input-error">
+      Please enter your last name.
+    </span>
+  </div>
+  <div class="input-wrapper">
+    <mat-form-field appearance="outline">
+      <mat-label>Email</mat-label>
+      <input matInput type="email" formControlName="email" />
+    </mat-form-field>
+    <span *ngIf="email?.invalid && email?.touched" class="input-error">
+      {{ getEmailErrorMessage() }}
+    </span>
+  </div>
+  <div class="input-wrapper">
+    <mat-form-field appearance="outline">
+      <mat-label>Password</mat-label>
+      <input matInput type="password" formControlName="password" />
+    </mat-form-field>
+    <span *ngIf="!password?.valid && password?.touched" class="input-error">
+      {{ getPasswordErrorMessage() }}
+    </span>
+  </div>
+  <div class="input-wrapper">
+    <mat-form-field appearance="outline">
+      <mat-label>Re-enter password</mat-label>
+      <input matInput type="password" formControlName="confirmPassword" />
+    </mat-form-field>
+    <span
+      *ngIf="!confirmPassword?.valid && confirmPassword?.touched"
+      class="input-error"
+    >
+      {{ getConfirmPasswordErrorMessage() }}
+    </span>
+  </div>
+  <button type="submit" [disabled]="">
+    <span>SignUp</span>
+  </button>
+</form>

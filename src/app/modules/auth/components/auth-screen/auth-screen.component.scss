@@ -1,0 +1,67 @@
+@use "../../../../../assets/styles/setup/mixins" as *;
+@use "../../../../../assets/styles/setup/variables" as *;
+
+:host {
+  display: flex;
+  flex-direction: row;
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  right: 0;
+  z-index: 103;
+  background-color: #fff;
+}
+
+.auth-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 40%;
+  height: 100vh;
+  background-image: url("https://st.depositphotos.com/1029736/1227/v/450/depositphotos_12274242-stock-illustration-vintage-seamless-book-background.jpg");
+  @include book-cover-border;
+  color: white;
+}
+
+.auth-component-container {
+  width: 60%;
+  background-color: #fff;
+  padding: 80px 64px;
+
+  h1 {
+    font-family: "EB Garamond", serif;
+    display: inline-block;
+    margin-bottom: 24px;
+    color: $background-color;
+    font-size: 4rem;
+  }
+
+  .nav-contianer {
+    width: 100%;
+    padding: 36px 72px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+
+    a:first-child {
+      margin-inline-end: 24px;
+    }
+    a {
+      font-size: 2.25rem;
+      color: $background-color-dark;
+      opacity: 0.39;
+
+      &:hover {
+        text-decoration: none;
+      }
+
+      &.active-link {
+        border-bottom: solid 3px $background-color-dark;
+        opacity: 1;
+      }
+    }
+  }
+}

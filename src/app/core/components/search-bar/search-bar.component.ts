@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { BookService, IFilter } from '../../services/book.service';
+import { BookService } from '../../services/book.service';
+import { IBooksFilter } from '../../models/book.model';
 
 @Component({
   selector: 'app-search-bar',
@@ -9,7 +10,7 @@ import { BookService, IFilter } from '../../services/book.service';
 })
 export class SearchBarComponent {
   search = '';
-  filter: IFilter = {};
+  filter: IBooksFilter = {};
   filterType = 'title';
 
   constructor(private booksService: BookService) {
