@@ -39,7 +39,8 @@ export class CartComponent implements OnInit {
   cartSum() {
     let sum = 0;
     this.books.forEach((books, index) => {
-      sum += books.price * this.cartItems[index].quantity;
+      if (this.cartItems[index] !== undefined)
+        sum += books.price * this.cartItems[index].quantity;
     });
     return sum;
   }
@@ -51,6 +52,11 @@ export class CartComponent implements OnInit {
 
   removeOne(bookId: string) {
     this.cartService.removeOne(bookId);
+  }
+
+  remove(bookId: string) {
+    this.cartService.remove(bookId);
+    this.books = this.books.filter((book) => book.id !== bookId);
   }
 
   trackBy(index: number, item: Book) {

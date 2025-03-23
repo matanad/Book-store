@@ -39,13 +39,20 @@
           {{ book.price | currency }}
         </p>
       </td>
-      <td class="book-quantity-container">
-        <label for="quantity">quantity</label>
-        <button class="remove-btn" (click)="removeOne(book.id)">-</button>
-        <p class="book-quantity">
-          {{ cartItems[i].quantity }}
-        </p>
-        <button class="add-btn" (click)="addToCart($event, book.id)">+</button>
+      <td>
+        <div class="book-quantity-container">
+          <label for="quantity">quantity</label>
+          <button class="remove-btn" (click)="removeOne(book.id)">-</button>
+          <p class="book-quantity">
+            {{ cartItems[i].quantity }}
+          </p>
+          <button class="add-btn" (click)="addToCart($event, book.id)">
+            +
+          </button>
+          <button class="remove-item-btn" (click)="remove(book.id)">
+            <app-trash-btn />
+          </button>
+        </div>
       </td>
     </tr>
   </tbody>

@@ -23,7 +23,7 @@ export class BookService {
 
   query(filterBy: IFilter) {
     this._activeFilterSub.next({ ...filterBy });
-    this.storageService.query(this.STORAGE_KEY).subscribe(
+    this.storageService.query<Book>(this.STORAGE_KEY).subscribe(
       (res) => {
         let filteredBooks = res;
         filteredBooks = this._filterBooksByCriteria(filteredBooks, filterBy);
@@ -78,7 +78,7 @@ export class BookService {
   }
 
   remove(bookId: string): Observable<Book> {
-    return this.storageService.remove(this.STORAGE_KEY, bookId);
+    return this.storageService.remove<Book>(this.STORAGE_KEY, bookId);
   }
 
   save(book: Book): Observable<Book> {

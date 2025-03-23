@@ -1,19 +1,29 @@
 import { Injectable } from '@angular/core';
 import { delay, map, Observable, of, throwError } from 'rxjs';
 
+interface Identifiable {
+  id: string;
+}
+
 @Injectable({
   providedIn: 'root',
 })
 export class AsyncStorageService {
   constructor() {}
 
-  query(entityType: string, delayTime = 500): Observable<any[]> {
+  query<T extends Identifiable>(
+    entityType: string,
+    delayTime = 500
+  ): Observable<T[]> {
     const entities = JSON.parse(localStorage.getItem(entityType) || '[]');
     return of(entities).pipe(delay(delayTime));
   }
 
-  get<T>(entityType: string, entityId: string): Observable<T> {
-    return this.query(entityType).pipe(
+  get<T extends Identifiable>(
+    entityType: string,
+    entityId: string
+  ): Observable<T> {
+    return this.query<T>(entityType).pipe(
       map((entities) => {
         const entity = entities.find((entity) => entity.id === entityId);
         if (!entity)
@@ -58,16 +68,13 @@ export class AsyncStorageService {
     );
   }
 
-  remove(entityType: string, entityId: string) {
-    return this.query(entityType).pipe(
+  remove<T extends Identifiable>(entityType: string, entityId: string) {
+    return this.query<T>(entityType).pipe(
       map((entities) => {
         const idx = entities.findIndex((entity) => entity.id === entityId);
         if (idx < 0)
-          return throwError(
-            () =>
-              new Error(
-                `Remove failed, cannot find entity with id: ${entityId} in: ${entityType}`
-              )
+          throw new Error(
+            `Remove failed, cannot find entity with id: ${entityId} in: ${entityType}`
           );
         const removedEntity = entities.splice(idx, 1);
         this._save(entityType, entities);

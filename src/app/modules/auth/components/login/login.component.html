@@ -1,0 +1,45 @@
+<form #loginForm="ngForm" (ngSubmit)="handleSubmit(loginForm)">
+  <h1>Enter your email and password to login</h1>
+  <div class="input-wrapper">
+    <mat-form-field>
+      <mat-label>Email</mat-label>
+      <input
+        matInput
+        type="text"
+        #Email="ngModel"
+        name="userName"
+        [(ngModel)]="email"
+        ngModel
+        required
+      />
+    </mat-form-field>
+    <span *ngIf="!Email.valid && Email.touched" class="input-error">
+      Please enter your email.
+    </span>
+  </div>
+  <div class="input-wrapper">
+    <mat-form-field>
+      <mat-label>Password</mat-label>
+      <input
+        matInput
+        type="password"
+        name="password"
+        [(ngModel)]="password"
+        #Password="ngModel"
+        required
+      />
+    </mat-form-field>
+    <span *ngIf="!Password.valid && Password.touched" class="input-error">
+      Please enter your password.
+    </span>
+  </div>
+  <span *ngIf="loginForm.submitted && !isUserValid" class="input-error">
+    The email or password you entered is incorrect. Please try again.
+  </span>
+  <button type="submit" [disabled]="!loginForm.valid">
+    <span>Login</span>
+  </button>
+  <a class="login-suggest" [routerLink]="['/auth/signup']"
+    >Don't have an account? Sign up here to get started!</a
+  >
+</form>
