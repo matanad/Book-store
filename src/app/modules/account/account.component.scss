@@ -1,0 +1,25 @@
+@use "../../../assets/styles/setup/_variables.scss" as *;
+
+:host {
+  display: block;
+}
+
+.account-card {
+  max-width: 960px;
+  margin: 0 auto;
+}
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+mat-card-title {
+  margin-bottom: 24px;
+  padding: 14px;
+}
+
+button {
+  text-transform: none;
+  margin-inline-end: 14px;
+  color: $background-color !important;
+}

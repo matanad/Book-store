@@ -23,7 +23,20 @@ export class UserService {
   private _isAuthanticatedSub = new BehaviorSubject<boolean>(false);
   public $isAuthenticated = this._isAuthanticatedSub.asObservable();
 
-  constructor(private storageService: AsyncStorageService) {}
+  constructor(private storageService: AsyncStorageService) {
+    let user: User | null | string;
+    if (!this._isAuthanticatedSub.value) {
+      user = localStorage.getItem('TOKEN');
+      if (user != null) {
+        user = JSON.parse(user) as User;
+        storageService.get<User>(this.USER_DB, user.id).pipe(take(1)).subscribe((user) => {
+            this._currentUserSub.next(user);
+            this._isAuthanticatedSub.next(true);
+            console.log(user);
+          });
+      }
+    }
+  }
 
   login(email: string, password: string): Observable<boolean> {
     return this.storageService.query<User>(this.USER_DB).pipe(
@@ -38,6 +51,7 @@ export class UserService {
         }
         this._currentUserSub.next(user);
         this._isAuthanticatedSub.next(true);
+        localStorage.setItem('TOKEN', JSON.stringify(user));
         return true;
       }),
       catchError((error) => {
@@ -50,6 +64,7 @@ export class UserService {
   logout() {
     this._currentUserSub.next({} as User);
     this._isAuthanticatedSub.next(false);
+    localStorage.removeItem('TOKEN');
   }
 
   signup(
@@ -76,7 +91,9 @@ export class UserService {
           return throwError(() => new Error('User already exists'));
         }
         return this.storageService.post(this.USER_DB, user).pipe(
-          tap((res) => this._currentUserSub.next(res)),
+          tap((res) => {
+            this._currentUserSub.next(res);
+          }),
           map(() => true),
           catchError((error) => {
             console.error(error);

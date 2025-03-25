@@ -11,12 +11,14 @@ import { UserService } from '../../../../core/services/user.service';
 import { Router } from '@angular/router';
 import validator from 'validator';
 import { take } from 'rxjs';
+import { fadeAnimation } from '../../../../animations/animations';
 
 @Component({
   selector: 'app-signup',
   standalone: false,
   templateUrl: './signup.component.html',
   styleUrl: './signup.component.scss',
+  animations: [fadeAnimation],
 })
 export class SignupComponent {
   signupForm!: FormGroup;

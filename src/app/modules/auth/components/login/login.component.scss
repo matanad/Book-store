@@ -16,7 +16,7 @@ form {
 
 .input-wrapper {
   width: 100%;
-  margin-bottom: 12px;
+  margin-bottom: 40px;
 }
 
 mat-form-field,
@@ -26,7 +26,7 @@ input {
 
 .input-error {
   position: relative;
-  top: -14px;
+  top: -21px;
   color: #e62429;
   line-height: 1.25rem;
   padding: 4px 0 0;
@@ -39,13 +39,17 @@ button {
   background-color: $background-color;
   width: 100%;
   margin-top: 24px;
+  padding-block: 8.5px;
 
   &:disabled {
     background-color: $background-color-dark;
   }
 
   span {
+    font-size: 1.5rem;
     transform: none;
+    text-transform: none;
+    font-weight: 700;
   }
 }
 

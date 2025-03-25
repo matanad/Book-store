@@ -14,11 +14,12 @@
 }
 
 .auth-screen {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 40%;
+  width: 43%;
   height: 100vh;
   background-image: url("https://st.depositphotos.com/1029736/1227/v/450/depositphotos_12274242-stock-illustration-vintage-seamless-book-background.jpg");
   @include book-cover-border;
@@ -26,7 +27,7 @@
 }
 
 .auth-component-container {
-  width: 60%;
+  width: 57%;
   background-color: #fff;
   padding: 80px 64px;
 
@@ -63,5 +64,31 @@
         opacity: 1;
       }
     }
+  }
+}
+
+.outlet-container {
+  position: relative;
+  display: contents;
+}
+
+.exit-btn-container {
+  position: absolute;
+  top: 40px;
+  left: 20px;
+  
+  div {
+    position: absolute;
+    cursor: pointer;
+    background-color: whitesmoke;
+    width: 40px;
+    height: 8px;
+  }
+  .first-line {
+    transform: rotate(45deg);
+  }
+
+  .second-line {
+    transform: rotate(-45deg);
   }
 }

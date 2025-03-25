@@ -1,5 +1,8 @@
-<section class="auth-screen">
-  <p>hi</p>
+<section class="auth-screen" [routerLink]="['']">
+  <div class="exit-btn-container">
+    <div class="first-line"></div>
+    <div class="second-line"></div>
+  </div>
 </section>
 <section class="auth-component-container">
   <h1>Hello</h1>
@@ -7,5 +10,7 @@
     <a [routerLink]="['/auth/login']" routerLinkActive="active-link">Login</a>
     <a [routerLink]="['/auth/signup']" routerLinkActive="active-link">Signup</a>
   </div>
-  <router-outlet />
+  <div class="outlet-container" [@fadeAnimation]="data">
+    <router-outlet />
+  </div>
 </section>

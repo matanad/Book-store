@@ -11,10 +11,8 @@
         ngModel
         required
       />
+      <mat-error> Please enter your email. </mat-error>
     </mat-form-field>
-    <span *ngIf="!Email.valid && Email.touched" class="input-error">
-      Please enter your email.
-    </span>
   </div>
   <div class="input-wrapper">
     <mat-form-field appearance="outline">
@@ -27,10 +25,8 @@
         #Password="ngModel"
         required
       />
+      <mat-error> Please enter your password. </mat-error>
     </mat-form-field>
-    <span *ngIf="!Password.valid && Password.touched" class="input-error">
-      Please enter your password.
-    </span>
   </div>
   <span *ngIf="loginForm.submitted && !isUserValid" class="input-error">
     The email or password you entered is incorrect. Please try again.

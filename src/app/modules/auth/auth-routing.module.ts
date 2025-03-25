@@ -9,8 +9,22 @@ const routes: Routes = [
     path: '',
     component: AuthScreenComponent,
     children: [
-      { path: 'login', component: LoginComponent },
-      { path: 'signup', component: SignupComponent },
+      { path: '', redirectTo: 'login', pathMatch: 'full' },
+      {
+        path: 'login',
+        component: LoginComponent,
+        data: { title: 'Login page' },
+      },
+      {
+        path: 'signup',
+        component: SignupComponent,
+        data: { title: 'Signup page' },
+      },
+      {
+        path: '**',
+        redirectTo: 'login',
+        pathMatch: 'full',
+      },
     ],
   },
 ];

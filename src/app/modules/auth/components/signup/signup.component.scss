@@ -1,5 +1,19 @@
 @use "../../../../../assets/styles/setup/_variables.scss" as *;
 
+@use '@angular/material' as mat;
+
+// Customize the entire app. Change :root to your selector if you want to scope the styles.
+:root {
+  @include mat.form-field-overrides((
+    filled-caret-color: orange,
+    filled-focus-active-indicator-color: red,
+    filled-container-color: red,
+    filled-label-text-color: red,
+    filled-input-text-color: red,
+    filled-input-text-placeholder-color:red,
+  ));
+}
+
 :host {
   display: block;
 }
@@ -39,13 +53,17 @@ button {
   background-color: $background-color;
   width: 100%;
   margin-top: 24px;
+  padding-block: 8.5px;
 
   &:disabled {
     background-color: $background-color-dark;
   }
 
   span {
+    font-size: 1.5rem;
     transform: none;
+    text-transform: none;
+    font-weight: 700;
   }
 }
 
