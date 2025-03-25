@@ -3,6 +3,7 @@ import { AsyncStorageService } from './async-storage.service';
 import {
   BehaviorSubject,
   catchError,
+  filter,
   map,
   Observable,
   of,
@@ -12,6 +13,7 @@ import {
   throwError,
 } from 'rxjs';
 import { User } from '../models/user.model';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -23,17 +25,26 @@ export class UserService {
   private _isAuthanticatedSub = new BehaviorSubject<boolean>(false);
   public $isAuthenticated = this._isAuthanticatedSub.asObservable();
 
-  constructor(private storageService: AsyncStorageService) {
+  constructor(
+    private storageService: AsyncStorageService,
+    private router: Router
+  ) {
     let user: User | null | string;
     if (!this._isAuthanticatedSub.value) {
       user = localStorage.getItem('TOKEN');
       if (user != null) {
         user = JSON.parse(user) as User;
-        storageService.get<User>(this.USER_DB, user.id).pipe(take(1)).subscribe((user) => {
-            this._currentUserSub.next(user);
-            this._isAuthanticatedSub.next(true);
-            console.log(user);
-          });
+        this._isAuthanticatedSub.next(true);
+        storageService
+          .get<User>(this.USER_DB, user.id)
+          .pipe(take(1))
+          .subscribe(
+            (user) => {
+              this._currentUserSub.next(user);
+              this._isAuthanticatedSub.next(true);
+            },
+            (err) => this._isAuthanticatedSub.next(false)
+          );
       }
     }
   }
@@ -61,10 +72,62 @@ export class UserService {
     );
   }
 
+  updateUserDetails(userToUpdate: User) {
+    return this.storageService.query<User>(this.USER_DB).pipe(
+      take(1),
+      switchMap((users) => {
+        const user = users.filter(
+          (user) =>
+            user.id !== userToUpdate.id && user.email !== userToUpdate.email
+        );
+        if (user.length === 0) {
+          return throwError(() => new Error('email is already exist'));
+        } else {
+          this.storageService
+            .put(this.USER_DB, userToUpdate)
+            .pipe(take(1))
+            .subscribe({ error: (err) => console.error(err) });
+          return of(user);
+        }
+      })
+    );
+  }
+
+  isEmailExist(userId: string, newEmail: string) {
+    return this.storageService.query<User>(this.USER_DB).pipe(
+      take(1),
+      switchMap((users) => {
+        const user = users.filter(
+          (user) => user.id !== userId && user.email !== newEmail
+        );
+        if (user.length === 0) {
+          return throwError(() => new Error('email is already exist'));
+        } else {
+          return of(false);
+        }
+      })
+    );
+  }
+
   logout() {
     this._currentUserSub.next({} as User);
     this._isAuthanticatedSub.next(false);
     localStorage.removeItem('TOKEN');
+    this.router.navigate(['']);
+  }
+
+  delete(userId: string) {
+    this.storageService
+      .remove(this.USER_DB, userId)
+      .pipe(take(1))
+      .subscribe({
+        next: () => {
+          this._currentUserSub.next({} as User);
+          this._isAuthanticatedSub.next(false);
+          this.router.navigate(['']);
+        },
+        error: (err) => console.error(err),
+      });
   }
 
   signup(

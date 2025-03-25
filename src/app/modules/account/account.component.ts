@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../core/services/user.service';
 import { User } from '../../core/models/user.model';
-import { map, take } from 'rxjs';
+import { first, map, take } from 'rxjs';
 import {
   AbstractControl,
   FormBuilder,
@@ -35,10 +35,31 @@ export class AccountComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.userService.$currentUser.pipe(take(1)).subscribe({
-      next: (user) => (this.user = user),
+    this.userService.$currentUser.subscribe({
+      next: (user) => {
+        this.user = user;
+        this.initFb();
+      },
     });
-    this.initFb();
+  }
+
+  onSubmit() {
+    const user = { ...this.user };
+    user.email = this.email?.value;
+    user.firstName = this.firstName?.value;
+    user.lastName = this.lastName?.value;
+    this.userService
+      .updateUserDetails(user)
+      .pipe(take(1))
+      .subscribe({
+        next: () => {
+          console.log('scc', this.email?.errors);
+        },
+        error: (err) => {
+          console.error(err);
+          this.email?.setErrors({ emailExist: true });
+        },
+      });
   }
 
   initFb() {
@@ -54,6 +75,7 @@ export class AccountComponent implements OnInit {
       email: new FormControl(this.user.email, [
         Validators.required,
         this.emailValidator,
+        this.emailExistValidator,
       ]),
       password: new FormControl('', []),
       confirmPassword: new FormControl('', []),
@@ -70,6 +92,35 @@ export class AccountComponent implements OnInit {
         console.log(change);
       }
     );
+  }
+
+  emailExistValidator(control: FormGroup): ValidationErrors | null {
+    let isEmailExist = false;
+    // if (control.valid) {
+    //   this.userService.isEmailExist(this.user.id, this.email?.value).subscribe({
+    //     error: () => (isEmailExist = true),
+    //   });
+    // }
+    return null;
+  }
+
+  onCancelChanges() {
+    const userData = {
+      firstName: this.user.firstName,
+      lastName: this.user.lastName,
+      email: this.user.email,
+      password: '',
+      confirmPassword: '',
+    };
+    this.editUserForm.setValue(userData);
+  }
+
+  onLogout() {
+    this.userService.logout();
+  }
+
+  onDelete() {
+    this.userService.delete(this.user.id);
   }
 
   emailValidator(control: FormGroup): ValidationErrors | null {
@@ -96,6 +147,11 @@ export class AccountComponent implements OnInit {
     if (errors?.['required']) return 'Please enter your email address.';
     if (errors?.['invalidEmail'])
       return 'Invalid email. Use a valid format like name@example.com.';
+    if (errors?.['emailExist']) {
+      console.log('exist');
+
+      return 'Email is alraedy exist.';
+    }
     return '';
   }
 

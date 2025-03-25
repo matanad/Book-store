@@ -53,13 +53,10 @@ export class AsyncStorageService {
         const idx = entities.findIndex(
           (entity) => entity.id === updatedEntity.id
         );
-        console.log('idx:', idx);
         if (idx < 0)
           throw new Error(
             `Update failed, cannot find entity with id: ${updatedEntity.id} in: ${entityType}`
           );
-        console.log(idx);
-
         entities[idx] = { ...updatedEntity };
         this._save(entityType, entities);
         return updatedEntity;
@@ -70,7 +67,9 @@ export class AsyncStorageService {
   remove<T extends Identifiable>(entityType: string, entityId: string) {
     return this.query<T>(entityType).pipe(
       map((entities) => {
-        const idx = entities.findIndex((entity) => entity.id === entityId);
+        const idx = entities.findIndex((entity) => {
+          return entity.id === entityId;
+        });
         if (idx < 0)
           throw new Error(
             `Remove failed, cannot find entity with id: ${entityId} in: ${entityType}`

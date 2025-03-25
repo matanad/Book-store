@@ -1,7 +1,7 @@
 <mat-card class="account-card">
   <mat-card-title>Edit User Details</mat-card-title>
   <mat-card-content>
-    <form [formGroup]="editUserForm">
+    <form [formGroup]="editUserForm" (ngSubmit)="onSubmit()">
       <mat-form-field appearance="outline" class="full-width">
         <mat-label>First Name</mat-label>
         <input
@@ -30,6 +30,7 @@
           placeholder="Enter email"
           formControlName="email"
         />
+        <mat-error>{{ getEmailErrorMessage() }}</mat-error>
       </mat-form-field>
 
       <mat-form-field appearance="outline" class="full-width">
@@ -52,8 +53,34 @@
       </mat-form-field>
 
       <div class="button-group">
-        <button mat-raised-button color="primary">Save Changes</button>
-        <button mat-stroked-button color="warn">Cancel</button>
+        <button mat-raised-button color="primary" type="submit">
+          Save Changes
+        </button>
+        <button
+          mat-stroked-button
+          color="warn"
+          type="button"
+          (click)="onCancelChanges()"
+        >
+          Cancel
+        </button>
+        <button
+          mat-stroked-button
+          color="warn"
+          type="button"
+          (click)="onLogout()"
+        >
+          Logout
+        </button>
+        <button
+          mat-stroked-button
+          color="warn"
+          class="delete-account-btn"
+          type="button"
+          (click)="onDelete()"
+        >
+          Delete account
+        </button>
       </div>
     </form>
   </mat-card-content>

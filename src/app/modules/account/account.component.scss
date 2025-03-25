@@ -22,4 +22,10 @@ button {
   text-transform: none;
   margin-inline-end: 14px;
   color: $background-color !important;
+
+  &.delete-account-btn {
+    color: white !important;
+    background-color: $accent-color-dark !important;
+    border: 0;
+  }
 }
