@@ -1,0 +1,25 @@
+.modal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background-color: rgba(91, 89, 89, 0.173);
+}
+
+mat-card {
+  padding: 20px;
+  width: 40%;
+}
+
+mat-card-title{
+    margin-bottom: 20px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+}

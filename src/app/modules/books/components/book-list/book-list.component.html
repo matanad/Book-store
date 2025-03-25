@@ -1,5 +1,16 @@
+<h1 class="list-title">Our Books</h1>
 <ul *ngIf="!isLoading">
   <li *ngFor="let book of books" [routerLink]="`/${book.id}`">
+    <div
+      class="delete-btn"
+      *ngIf="isAdmin"
+      (click)="deleteBook($event, book.id)"
+    >
+      X
+    </div>
+    <div class="edit-btn" *ngIf="isAdmin" (click)="editBook($event, book)">
+      Edit
+    </div>
     <img src="{{ book.imgUrl }}" alt="{{ book.title }}" />
     <h1>{{ book.title | titlecase }}</h1>
     <h2>by {{ book.author }}</h2>
@@ -107,3 +118,9 @@
   </button>
   <button class="paging-btn" (click)="onChangePage(1, true)">next</button>
 </div>
+<app-modal
+  *ngIf="isAdmin && bookToEdit.id"
+  [book]="bookToEdit"
+  (onSave)="saveBook($event)"
+  (onClose)="onCloseModal()"
+/>

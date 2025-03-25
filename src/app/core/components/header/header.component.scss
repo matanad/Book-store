@@ -4,7 +4,10 @@
   display: block;
   background-color: $accent-color;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
-  margin-bottom: 24px;
+}
+
+.main-nav-container {
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
 }
 
 nav {
@@ -13,15 +16,16 @@ nav {
   justify-content: space-between;
   max-width: $layout-width;
   margin: 0 auto;
+  padding-block: 4px;
 }
 
-.logo{
+.logo {
   font-size: 2rem;
   cursor: pointer;
-  @import url('https://fonts.googleapis.com/css2?family=Merriweather+Sans:ital,wght@0,300..800;1,300..800&display=swap');
+  @import url("https://fonts.googleapis.com/css2?family=Merriweather+Sans:ital,wght@0,300..800;1,300..800&display=swap");
   font-weight: 100;
 
-  span{
+  span {
     font-weight: 300;
   }
 }

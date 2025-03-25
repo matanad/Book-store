@@ -113,7 +113,7 @@ export class UserService {
     this._currentUserSub.next({} as User);
     this._isAuthanticatedSub.next(false);
     localStorage.removeItem('TOKEN');
-    this.router.navigate(['']);
+    this.router.navigate(['auth']);
   }
 
   delete(userId: string) {

@@ -5,17 +5,26 @@ import { BooksRoutingModule } from './books-routing.module';
 import { BooksComponent } from './books.component';
 import { BookListComponent } from './components/book-list/book-list.component';
 import { BookDetailsComponent } from './components/book-details/book-details.component';
-
+import { ModalComponent } from './components/modal/modal.component';
+import { FormsModule } from '@angular/forms';
+import { MatCardModule } from '@angular/material/card';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
 
 @NgModule({
   declarations: [
     BooksComponent,
     BookListComponent,
-    BookDetailsComponent
+    BookDetailsComponent,
+    ModalComponent,
   ],
   imports: [
     CommonModule,
-    BooksRoutingModule
-  ]
+    BooksRoutingModule,
+    FormsModule,
+    MatCardModule,
+    MatInputModule,
+    MatButtonModule,
+  ],
 })
-export class BooksModule { }
+export class BooksModule {}

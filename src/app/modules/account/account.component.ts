@@ -77,7 +77,11 @@ export class AccountComponent implements OnInit {
         this.emailValidator,
         this.emailExistValidator,
       ]),
-      password: new FormControl('', []),
+      password: new FormControl('', [
+        Validators.required,
+        // Validators.minLength(0)
+        this.strongPasswordValidator,
+      ]),
       confirmPassword: new FormControl('', []),
     });
 
@@ -130,7 +134,8 @@ export class AccountComponent implements OnInit {
   }
 
   strongPasswordValidator(control: FormGroup): ValidationErrors | null {
-    const password = control.value;
+    const password: string = control.value;
+    if (password == undefined || password.trim() == '') return null;
     return !validator.isStrongPassword(password)
       ? { weakPassword: true }
       : null;

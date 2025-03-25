@@ -3,6 +3,14 @@
 
 :host {
   display: block;
+  padding: 24px 0;
+}
+
+.list-title {
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 14px;
+  color: $background-color;
 }
 
 ul {
@@ -16,12 +24,36 @@ ul {
 
 li {
   display: flex;
+  position: relative;
   flex-direction: column;
   max-width: 160px;
-  max-height: 3505px;
+  max-height: 350px;
   margin-inline-end: 30px;
   margin-bottom: 30px;
   cursor: pointer;
+
+  .delete-btn,
+  .edit-btn {
+    opacity: 0;
+    position: absolute;
+    font-weight: 700;
+    top: 5px;
+  }
+  
+  .delete-btn{
+    left: 10px;
+    color: red;
+  }
+
+  .edit-btn{
+    right: 10px;
+    color: wheat;
+  }
+
+  &:hover .delete-btn,
+  &:hover .edit-btn {
+    opacity: 1;
+  }
 }
 
 img {

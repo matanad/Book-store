@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, max, Observable } from 'rxjs';
+import { BehaviorSubject, map, max, Observable, throwError } from 'rxjs';
 import booksJSON from '../../../data/books.json';
 import { AsyncStorageService } from './async-storage.service';
 import { Book, IBooksFilter } from '../models/book.model';
+import { UserService } from './user.service';
 
 @Injectable({
   providedIn: 'root',
@@ -15,11 +16,18 @@ export class BookService {
   private PAGE_SIZE: number = 12;
   private STORAGE_KEY = 'booksDB';
   private _maxPages = 1;
+  private _isAdmin: boolean = false;
 
-  constructor(private storageService: AsyncStorageService) {
+  constructor(
+    private storageService: AsyncStorageService,
+    private userService: UserService
+  ) {
     const books = localStorage.getItem(this.STORAGE_KEY);
     if (!books)
       localStorage.setItem(this.STORAGE_KEY, JSON.stringify(booksJSON));
+    userService.$currentUser.subscribe({
+      next: (user) => (this._isAdmin = user.isAdmin),
+    });
   }
 
   query(filterBy: IBooksFilter) {
@@ -38,6 +46,12 @@ export class BookService {
 
   getMaxPages() {
     return this._maxPages;
+  }
+
+  getGeneres() {
+    return this.storageService
+      .query<Book>(this.STORAGE_KEY)
+      .pipe(map((books) => [...new Set(books.map((book) => book.category))]));
   }
 
   private _paginateBooks(books: Book[], filterBy: IBooksFilter) {
@@ -63,7 +77,10 @@ export class BookService {
     );
   }
 
-  private _filterBooksByCriteria(books: Book[], filterBy: IBooksFilter): Book[] {
+  private _filterBooksByCriteria(
+    books: Book[],
+    filterBy: IBooksFilter
+  ): Book[] {
     const filterKeys = ['title', 'description', 'author', 'category'];
     return books.filter((book) =>
       filterKeys.every((key) => {
@@ -79,6 +96,7 @@ export class BookService {
   }
 
   remove(bookId: string): Observable<Book> {
+    if (!this._isAdmin) return throwError(() => new Error('No Permission'));
     return this.storageService.remove<Book>(this.STORAGE_KEY, bookId);
   }
 

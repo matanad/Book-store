@@ -1,0 +1,74 @@
+<div class="modal" (click)="closeModal($event)">
+  <mat-card (click)="onEvent($event)">
+    <mat-card-title>Edit book details:</mat-card-title>
+    <mat-card-content>
+      <form #form="ngForm" (submit)="saveChanges()">
+        <mat-form-field appearance="outline">
+          <mat-label>Title</mat-label>
+          <input
+            matInput
+            name="title"
+            type="text"
+            placeholder="Enter title"
+            [(ngModel)]="editedBook.title"
+          />
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>author</mat-label>
+          <input
+            matInput
+            name="author"
+            type="text"
+            placeholder="Enter author name"
+            [(ngModel)]="editedBook.author"
+          />
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>category</mat-label>
+          <input
+            matInput
+            name="category"
+            type="text"
+            placeholder="Enter category"
+            [(ngModel)]="editedBook.category"
+          />
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>description</mat-label>
+          <input
+            matInput
+            name="description"
+            type="text"
+            placeholder="Enter description"
+            [(ngModel)]="editedBook.description"
+          />
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>price</mat-label>
+          <input
+            matInput
+            name="price"
+            type="number"
+            placeholder="Enter price"
+            [(ngModel)]="editedBook.price"
+          />
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>imgUrl</mat-label>
+          <input
+            matInput
+            name="imgUrl"
+            type="text"
+            placeholder="Enter img url"
+            [(ngModel)]="editedBook.imgUrl"
+          />
+        </mat-form-field>
+        <div class="button-group">
+          <button mat-raised-button color="primary" type="submit">
+            Save Changes
+          </button>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>

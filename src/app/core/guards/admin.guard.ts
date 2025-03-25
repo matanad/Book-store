@@ -18,21 +18,13 @@ export class AuthGuard implements CanActivate {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): MaybeAsync<GuardResult> {
-    return this.userService.$isAuthenticated.pipe(
+    return this.userService.$currentUser.pipe(
       take(1),
-      map((isAuthenticated) => {
-        const isAuthPage = state.url.includes('auth');
-
-        if (isAuthenticated && isAuthPage) {
+      map((currentUser) => {
+        if (!currentUser.isAdmin) {
           this.router.navigate(['']);
           return false;
         }
-
-        if (!isAuthenticated && !isAuthPage) {
-          this.router.navigate(['/auth']);
-          return false;
-        }
-
         return true;
       })
     );

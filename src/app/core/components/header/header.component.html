@@ -1,10 +1,13 @@
-<nav>
-  <h1 class="logo" [routerLink]="['']">story<span>shelf</span></h1>
-  <app-search-bar />
-  <div class="menu">
-    <a [routerLink]="['auth', 'login']">login</a>
-    <a>signup</a>
-    <a>all books</a>
-    <a [routerLink]="['account']">account</a>
-  </div>
-</nav>
+<section class="main-nav-container">
+  <nav>
+    <h1 class="logo" [routerLink]="['']">story<span>shelf</span></h1>
+    <app-search-bar [filter]="filter" (onSearch)="onInput($event)" />
+    <div class="menu">
+      <a [routerLink]="['auth', 'login']">login</a>
+      <a>signup</a>
+      <a>all books</a>
+      <a [routerLink]="['account']">account</a>
+    </div>
+  </nav>
+</section>
+<app-serach-tab [generes]="generes" />

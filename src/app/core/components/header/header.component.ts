@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { BookService } from '../../services/book.service';
+import { IBooksFilter } from '../../models/book.model';
 
 @Component({
   selector: 'app-header',
@@ -8,6 +10,20 @@ import { Router } from '@angular/router';
   styleUrl: './header.component.scss',
 })
 export class HeaderComponent implements OnInit {
-  constructor(private router: Router) {}
+  filter: IBooksFilter = {};
+  generes: string[] = [];
+
+  constructor(private booksService: BookService) {
+    booksService.$activeFilter.subscribe((filter) => {
+      this.filter = filter;
+    });
+    booksService
+      .getGeneres()
+      .subscribe({ next: (generes) => (this.generes = generes) });
+  }
   ngOnInit(): void {}
+
+  onInput(event: any) {
+    this.booksService.query(this.filter);
+  }
 }
