@@ -4,6 +4,7 @@ import { CartService } from '../../../../core/services/cart.service';
 import { Book, IBooksFilter } from '../../../../core/models/book.model';
 import { ActivatedRoute } from '@angular/router';
 import { map, take } from 'rxjs';
+import { UserService } from '../../../../core/services/user.service';
 
 @Component({
   selector: 'app-book-list',
@@ -18,14 +19,20 @@ export class BookListComponent implements OnInit {
   isLoading: boolean = true;
   isAdmin: boolean = false;
   bookToEdit: Book = {} as Book;
+  isEditMode: boolean = false;
+  isLogedInUser: boolean = false;
 
   constructor(
     private booksService: BookService,
     private cartService: CartService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private userService: UserService
   ) {}
 
   ngOnInit(): void {
+    this.booksService.$isLoading.subscribe(
+      (isLoading) => (this.isLoading = isLoading)
+    );
     this.booksService.$activeFilter.subscribe((filter) => {
       this.filterBy = { ...filter, ...this.filterBy };
     });
@@ -33,7 +40,6 @@ export class BookListComponent implements OnInit {
     this.booksService.$books.subscribe((books) => {
       this.maxPages = this.booksService.getMaxPages();
       this.books = books;
-      this.isLoading = false;
     });
     this.booksService.$activeFilter.subscribe((res) => (this.filterBy = res));
 
@@ -43,25 +49,70 @@ export class BookListComponent implements OnInit {
       .join('/');
 
     if (fullPath.includes('admin')) this.isAdmin = true;
+
+    this.userService.$isAuthenticated.subscribe(
+      (isAuth) => (this.isLogedInUser = isAuth)
+    );
+  }
+
+  onAddBook() {
+    if (!this.isLogedInUser) return;
+    this.isEditMode = false;
+    this.bookToEdit = new Book('', '', '', '', '', '', 1);
+  }
+
+  getPages() {
+    return Array.from({ length: this.maxPages }, (_, i) => i + 1);
+  }
+
+  getLoadingBooks() {
+    return Array.from({ length: 10 }, (_, i) => i + 1);
   }
 
   editBook(event: MouseEvent, book: Book) {
     event.stopPropagation();
+    this.isEditMode = true;
     this.bookToEdit = book;
   }
 
   saveBook(event: any) {
+    if (this._isBookHasEmptyFields(event)) return;
     if (this.isAdmin)
-      this.booksService
-        .save(event)
-        .pipe(take(1))
-        .subscribe({
-          next: (book) => {
-            this.booksService.query(this.filterBy);
-            this.bookToEdit = {} as Book;
-          },
-          error: (err) => console.error(err),
-        });
+      if (this.isEditMode)
+        this.booksService
+          .save(event)
+          .pipe(take(1))
+          .subscribe({
+            next: (book) => {
+              this.booksService.query(this.filterBy);
+              this.bookToEdit = {} as Book;
+            },
+            error: (err) => console.error(err),
+          });
+      else
+        this.booksService
+          .addBook(event)
+          .pipe(take(1))
+          .subscribe({
+            next: (book) => {
+              this.booksService.query(this.filterBy);
+              this.bookToEdit = {} as Book;
+              this.isEditMode = false;
+            },
+            error: (err) => console.error(err),
+          });
+  }
+
+  private _isBookHasEmptyFields(book: Book): boolean {
+    return (
+      !book.title ||
+      !book.author ||
+      !book.description ||
+      !book.category ||
+      !book.imgUrl ||
+      book.price === null ||
+      book.price === undefined
+    );
   }
 
   onCloseModal() {
@@ -76,12 +127,12 @@ export class BookListComponent implements OnInit {
         return;
       else filter.pageIdx += page;
     else filter.pageIdx = page;
-    this.isLoading = true;
     this.booksService.query(filter);
   }
 
   addToCart(event: MouseEvent, bookId: string) {
     event.stopPropagation();
+    if (!this.isLogedInUser) return;
     this.cartService.addBook(bookId);
   }
 

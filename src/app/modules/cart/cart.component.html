@@ -8,6 +8,9 @@
     <th>quantity</th>
   </thead>
   <tbody>
+    <tr *ngIf="books.length === 0">
+      <h1>Your cart is empty</h1>
+    </tr>
     <tr *ngFor="let book of books; let i = index; trackBy: trackBy">
       <td>
         <label for="cover">cover</label>
@@ -61,5 +64,9 @@
     {{
       cartSum() | currency
     }}
+    <button class="purchase-btn" (click)="onPurchase()">Purcase</button>
   </tfoot>
 </table>
+<div class="modal" [ngClass]="{ open: isModalOpen }">
+  <h1>Thank you for you purchase!</h1>
+</div>

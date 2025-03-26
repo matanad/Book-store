@@ -8,6 +8,7 @@
 
 .main-nav-container {
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+  padding-inline: 12px;
 }
 
 nav {
@@ -17,6 +18,15 @@ nav {
   max-width: $layout-width;
   margin: 0 auto;
   padding-block: 4px;
+
+  @media (max-width: 1024px) { // Tablet
+    padding: 10px;
+  }
+
+  @media (max-width: 768px) { // Mobile
+    flex-direction: column;
+    padding: 10px;
+  }
 }
 
 .logo {
@@ -24,8 +34,66 @@ nav {
   cursor: pointer;
   @import url("https://fonts.googleapis.com/css2?family=Merriweather+Sans:ital,wght@0,300..800;1,300..800&display=swap");
   font-weight: 100;
+  margin-inline-end: 4px;
 
   span {
     font-weight: 300;
+  }
+
+  @media (max-width: 1024px) { // Tablet
+    font-size: 1.75rem;
+  }
+
+  @media (max-width: 768px) { // Mobile
+    font-size: 1.5rem;
+  }
+}
+
+.hamburger {
+  position: absolute;
+  top: -14px;
+  right: 0;
+  display: none;
+  font-size: 2rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.3s ease, color 0.3s ease;
+  color: #333;
+
+  @media (max-width: 768px) { // Mobile
+    display: block;
+  }
+
+  &.open {
+    content: 'X';
+  }
+}
+
+.menu {
+  display: flex;
+  align-items: center;
+
+  @media (max-width: 768px) { // Mobile
+    display: none;
+    flex-direction: column;
+    width: 100%;
+    margin-top: 10px;
+    background-color: $accent-color; // צבע רקע לתפריט
+
+    &.open {
+      display: flex;
+    }
+  }
+
+  > * {
+    &:not(:last-child) {
+      margin-inline-end: 12px;
+
+      @media (max-width: 768px) { // Mobile
+        margin-inline-end: 0;
+        margin-bottom: 8px;
+      }
+    }
   }
 }

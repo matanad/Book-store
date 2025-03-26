@@ -1,3 +1,5 @@
+@use "../../../assets/styles/setup/_variables.scss" as *;
+
 :host {
   display: block;
   padding-block: 20px;
@@ -54,7 +56,38 @@ a {
   }
 }
 
-.remove-item-btn>*{
+.remove-item-btn > * {
   height: 40px;
   width: 40px;
+}
+
+.purchase-btn {
+  text-transform: capitalize;
+  border: 0;
+  border-radius: 8px;
+  margin: 14px;
+  background-color: $background-color;
+  color: whitesmoke;
+  font-weight: 600;
+}
+
+.modal{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 30vw;
+  height: 30vw;
+  background-color: $accent-color;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  border-radius: 18px;
+  opacity: 0;
+  transition: opacity 500ms ease-in-out;
+
+  &.open{
+    opacity: 1;
+  }
 }

@@ -6,6 +6,23 @@
   padding: 24px 0;
 }
 
+header{
+  margin-inline: 38px;
+  display: flex;
+  h1{
+    width: 90%;
+  }
+
+  .add-book-btn{
+    width: 10%;
+    border: 0;
+    border-radius: 8px;
+    background-color: $background-color;
+    color: whitesmoke;
+    font-weight: 600;
+  }
+}
+
 .list-title {
   text-align: center;
   font-size: 2rem;
@@ -16,21 +33,37 @@
 ul {
   display: flex;
   flex-wrap: wrap;
-  justify-content: flex-start;
-  max-width: $layout-width;
+  justify-content: center;
+  width: 100%;
+  max-width: 1246px;
   margin: 0 auto;
-  min-height: calc(100vh - 180px);
+  min-height: 100%;
+  padding: 0;
+  gap: 3px;
+
+  @media (max-width: 768px) {
+    gap: 5px;
+    justify-content: center;
+  }
+
+  @media (min-width: 1024px) {
+    justify-content: flex-start;
+  }
 }
 
 li {
   display: flex;
   position: relative;
   flex-direction: column;
-  max-width: 160px;
-  max-height: 350px;
-  margin-inline-end: 30px;
+  width: 100%;
+  max-width: 306px;
+  padding: 24px;
   margin-bottom: 30px;
   cursor: pointer;
+
+  img {
+    margin-bottom: 14px;
+  }
 
   .delete-btn,
   .edit-btn {
@@ -39,13 +72,13 @@ li {
     font-weight: 700;
     top: 5px;
   }
-  
-  .delete-btn{
+
+  .delete-btn {
     left: 10px;
     color: red;
   }
 
-  .edit-btn{
+  .edit-btn {
     right: 10px;
     color: wheat;
   }
@@ -53,6 +86,9 @@ li {
   &:hover .delete-btn,
   &:hover .edit-btn {
     opacity: 1;
+  }
+  @media (max-width: 768px) {
+    padding: 16px;
   }
 }
 
@@ -62,7 +98,8 @@ img {
 }
 
 h1 {
-  font-size: 1rem;
+  font-size: 1.2rem;
+  line-height: 1.2;
 }
 
 h2 {
@@ -73,6 +110,11 @@ h2 {
 h1,
 h2 {
   font-family: "EB Garamond", serif;
+}
+
+.category {
+  margin-bottom: 8px;
+  font-size: 0.9rem;
 }
 
 .paging-container {
@@ -96,59 +138,10 @@ h2 {
   color: white;
 }
 
-.book-loader {
-  width: 160px;
-  height: 352.5px;
-  background: #fff;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
-
-  .content {
-    padding: 8px 8px 20px;
-  }
-
-  &.is-loading {
-    .book-loader-img,
-    h2,
-    p {
-      background: #eee;
-      background: linear-gradient(110deg, #ececec 8%, #f5f5f5 18%, #ececec 33%);
-      background-size: 200% 100%;
-      animation: 1.5s shine linear infinite;
-    }
-
-    h2,
-    p {
-      border-radius: 5px;
-    }
-
-    .book-loader-img {
-      border-bottom-left-radius: 0;
-      border-bottom-right-radius: 0;
-      width: 100%;
-      aspect-ratio: 3/4;
-    }
-
-    h2 {
-      height: 30px;
-      margin-bottom: 12px;
-    }
-
-    p {
-      height: 50px;
-    }
-  }
-}
-
-@keyframes shine {
-  to {
-    background-position-x: -200%;
-  }
-}
-
 .add-to-cart-btn {
   display: block;
   padding: 8px 11px;
-  margin: 15px auto 0;
+  // margin: 15px auto 0;
   background-color: #85aa64;
   color: whitesmoke;
   border: 0;
@@ -158,7 +151,60 @@ h2 {
   transition: all 0.1s ease-in-out;
   width: 100%;
   margin-top: auto;
+  align-self: flex-start;
+  justify-self: baseline;
   &:active {
     transform: scale(0.9);
+  }
+
+  @media (max-width: 768px) {
+    font-size: 1rem;
+    padding: 9px 20%;
+    max-width: 80%;
+    margin: 0 auto;
+  }
+
+  @media (min-width: 1024px) {
+    font-size: 1rem;
+    padding: 10px 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  li {
+    max-width: 100%;
+    justify-content: center;
+    align-items: center;
+
+    h1 {
+      font-size: 1.8rem;
+    }
+    h2 {
+      font-size: 1.3rem;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  ul {
+    max-width: 100%;
+    justify-content: center;
+  }
+  li {
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+@media (min-width: 1024px) {
+  ul {
+    max-width: 1246px;
+    justify-content: center;
+  }
+}
+
+@media (min-width: 1440px) {
+  ul {
+    max-width: 1600px;
   }
 }

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CartService, ICartItem } from '../../core/services/cart.service';
-import {  BookService } from '../../core/services/book.service';
+import { BookService } from '../../core/services/book.service';
 import { Book } from '../../core/models/book.model';
 
 @Component({
@@ -12,6 +12,7 @@ import { Book } from '../../core/models/book.model';
 export class CartComponent implements OnInit {
   books: Book[] = [];
   cartItems: ICartItem[] = [];
+  isModalOpen = false;
 
   constructor(
     private cartService: CartService,
@@ -62,5 +63,15 @@ export class CartComponent implements OnInit {
 
   trackBy(index: number, item: Book) {
     return item.id;
+  }
+
+  onPurchase() {
+    if (this.cartItems.length !== 0) {
+      this.isModalOpen = true;
+      this.cartService.purchase();
+      setTimeout(() => {
+        this.isModalOpen = false;
+      }, 5000);
+    }
   }
 }

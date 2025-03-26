@@ -13,7 +13,9 @@ export class BookService {
   public $books = this._booksSub.asObservable();
   private _activeFilterSub = new BehaviorSubject<IBooksFilter>({});
   public $activeFilter = this._activeFilterSub.asObservable();
-  private PAGE_SIZE: number = 12;
+  private _isLoadingSub = new BehaviorSubject<boolean>(false);
+  public $isLoading = this._isLoadingSub.asObservable();
+  private PAGE_SIZE: number = 10;
   private STORAGE_KEY = 'booksDB';
   private _maxPages = 1;
   private _isAdmin: boolean = false;
@@ -31,6 +33,7 @@ export class BookService {
   }
 
   query(filterBy: IBooksFilter) {
+    this._isLoadingSub.next(true);
     this._activeFilterSub.next({ ...filterBy });
     this.storageService.query<Book>(this.STORAGE_KEY).subscribe(
       (res) => {
@@ -39,6 +42,7 @@ export class BookService {
         filteredBooks = this._sortBooksBy(filteredBooks, filterBy);
         filteredBooks = this._paginateBooks(filteredBooks, filterBy);
         this._booksSub.next(filteredBooks);
+        this._isLoadingSub.next(false);
       },
       (err) => console.error(err)
     );
@@ -52,6 +56,10 @@ export class BookService {
     return this.storageService
       .query<Book>(this.STORAGE_KEY)
       .pipe(map((books) => [...new Set(books.map((book) => book.category))]));
+  }
+
+  addBook(newBook: Book) {
+    return this.storageService.post(this.STORAGE_KEY, newBook);
   }
 
   private _paginateBooks(books: Book[], filterBy: IBooksFilter) {

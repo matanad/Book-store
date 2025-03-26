@@ -7,7 +7,18 @@
   width: 87.5%;
   margin: 0 auto;
   padding-block: 70px;
+
+  @media (max-width: 1024px) { // Tablet
+    flex-direction: column;
+    padding-block: 50px;
+  }
+
+  @media (max-width: 768px) { // Mobile
+    flex-direction: column;
+    padding-block: 30px;
+  }
 }
+
 .picture-container {
   width: 20%;
   display: flex;
@@ -15,6 +26,17 @@
 
   img {
     aspect-ratio: 3/4;
+    max-width: 100%;
+  }
+
+  @media (max-width: 1024px) { // Tablet
+    width: 30%;
+    margin-bottom: 20px;
+  }
+
+  @media (max-width: 768px) { // Mobile
+    // width: 100%;
+    margin-bottom: 20px;
   }
 }
 
@@ -36,6 +58,15 @@
   h2 {
     font-family: "EB Garamond", serif;
   }
+
+  @media (max-width: 1024px) { // Tablet
+    padding-inline: 50px;
+  }
+
+  @media (max-width: 768px) { // Mobile
+    width: 100%;
+    padding-inline: 20px;
+  }
 }
 
 img {
@@ -43,6 +74,7 @@ img {
   margin-bottom: 20px;
   @include book-cover-border;
 }
+
 .add-to-cart-btn {
   display: block;
   padding: 8px 11px;
@@ -56,6 +88,11 @@ img {
 
   &:active {
     transform: scale(0.9);
+  }
+
+  @media (max-width: 768px) { // Mobile
+    width: 100%;
+    text-align: center;
   }
 }
 

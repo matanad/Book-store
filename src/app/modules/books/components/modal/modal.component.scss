@@ -2,12 +2,12 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   bottom: 0;
   right: 0;
-  background-color: rgba(91, 89, 89, 0.173);
+  //   background-color: rgba(91, 89, 89, 0.173);
 }
 
 mat-card {
@@ -15,11 +15,19 @@ mat-card {
   width: 40%;
 }
 
-mat-card-title{
-    margin-bottom: 20px;
+mat-card-title {
+  margin-bottom: 20px;
 }
 
 form {
   display: flex;
   flex-direction: column;
+}
+
+.button-group {
+  display: flex;
+  justify-content: space-between;
+  button:last-child {
+    color: red !important;
+  }
 }

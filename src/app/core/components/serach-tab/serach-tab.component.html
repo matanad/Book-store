@@ -1,5 +1,5 @@
 <ul>
-  <li *ngFor="let genere of generes">
+  <li *ngFor="let genere of generes" (click)="onGenereClick(genere)">
     {{ genere }}
   </li>
 </ul>

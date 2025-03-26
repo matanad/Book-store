@@ -13,16 +13,21 @@ import { filter, Subscription } from 'rxjs';
 export class AuthScreenComponent implements OnInit, OnDestroy {
   protected data: string = '';
   subscription: Subscription = new Subscription();
+  isAdminRoute: boolean = false;
 
   constructor(private route: ActivatedRoute, private router: Router) {}
 
   ngOnInit(): void {
+    this.checkAdminRoute();
     this.subscription = this.router.events
       .pipe(filter((event) => event instanceof NavigationEnd))
       .subscribe(() => {
         this.data = this.route.firstChild?.snapshot.data['title'] || 'Auth';
-        console.log('Title updated:', this.data);
       });
+  }
+
+  checkAdminRoute(): void {
+    this.isAdminRoute = this.router.url.includes('/admin');
   }
 
   ngOnDestroy(): void {

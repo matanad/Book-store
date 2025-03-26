@@ -12,6 +12,10 @@ form {
   background-color: #fff;
   border-radius: 50px;
   width: 100%;
+
+  @media (max-width: 768px){
+    padding: 30px 14px;
+  }
 }
 
 .input-wrapper {

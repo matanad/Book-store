@@ -29,7 +29,7 @@
     </mat-form-field>
   </div>
   <span *ngIf="loginForm.submitted && !isUserValid" class="input-error">
-    The email or password you entered is incorrect. Please try again.
+    {{ getLoginFailedMsg(failMsg) }}
   </span>
   <button type="submit" [disabled]="!loginForm.valid">
     <span>Login</span>

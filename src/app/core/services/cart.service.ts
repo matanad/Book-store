@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, catchError, of, take, tap } from 'rxjs';
 import { AsyncStorageService } from './async-storage.service';
 import { OperationQueueService } from './operation-queue.service';
+import { UserService } from './user.service';
 
 @Injectable({
   providedIn: 'root',
@@ -12,28 +13,42 @@ export class CartService {
   private _cartCounterSub = new BehaviorSubject<number>(0);
   $cartCounter = this._cartCounterSub.asObservable();
   private CART_DB = 'cartDB';
-  private USER_ID = 'fsdf456';
-  private _cart: Cart = new Cart(this.USER_ID);
+  private userID = '';
+  private _cart: Cart = new Cart(this.userID);
 
   constructor(
     private storageService: AsyncStorageService,
-    private queueService: OperationQueueService
+    private queueService: OperationQueueService,
+    private userService: UserService
   ) {
     this.query();
   }
 
-  query(userId: string = this.USER_ID) {
-    this.storageService.get<ICart>(this.CART_DB, userId).subscribe({
-      next: (cart) => {
-        this._cart = cart;
-        this._cartItemsSub.next(cart.items);
-        this._cartCounterSub.next(cart.cartCounter);
-      },
-      error: (err) => console.log(err),
+  query() {
+    this.userService.$currentUser.subscribe((user) => {
+      console.log('hiii', user.id);
+      this.userID = user.id;
+      this._cart = new Cart(user.id);
+      this.storageService
+        .get<ICart>(this.CART_DB, user.id)
+        .pipe(take(1))
+        .subscribe({
+          next: (cart) => {
+            this._cart = cart;
+            this._cartItemsSub.next(cart.items);
+            this._cartCounterSub.next(cart.cartCounter);
+          },
+          error: (err) => {
+            console.error(err);
+            this._cartItemsSub.next(this._cart.items);
+            this._cartCounterSub.next(this._cart.cartCounter);
+          },
+        });
     });
   }
 
   addBook(bookId: string) {
+    if (this.userID === '') return;
     this.queueService.addTask(() => {
       let cartItem: CartItem = new CartItem(bookId);
       let cartItemIdx = this._cart.items.findIndex(
@@ -51,12 +66,10 @@ export class CartService {
               this._cartCounterSub.next(cart.cartCounter);
               this._cartItemsSub.next(cart.items);
               this._cart = cart;
-              console.log(cart);
             },
             error: (err) => {
-              // במקרה של שגיאה, אנו מבקשים את המידע מהשרת מחדש
               this.storageService
-                .get<Cart>(this.CART_DB, this.USER_ID)
+                .get<Cart>(this.CART_DB, this.userID)
                 .pipe(take(1))
                 .subscribe({
                   next: (cart) => {
@@ -93,7 +106,7 @@ export class CartService {
             error: (err) => {
               // במקרה של שגיאה, אנו מבקשים את המידע מהשרת מחדש
               this.storageService
-                .get<Cart>(this.CART_DB, this.USER_ID)
+                .get<Cart>(this.CART_DB, this.userID)
                 .pipe(take(1))
                 .subscribe({
                   next: (cart) => {
@@ -152,6 +165,12 @@ export class CartService {
         })
       );
     });
+  }
+
+  purchase() {
+    this.storageService
+      .remove(this.CART_DB, this._cart.id)
+      .subscribe({ next: () => this.query() });
   }
 
   removeOne(bookId: string) {

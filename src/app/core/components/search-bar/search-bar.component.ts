@@ -11,28 +11,26 @@ import { IBooksFilter } from '../../models/book.model';
 export class SearchBarComponent implements OnInit {
   @Input() filter: IBooksFilter = {};
   @Output() onSearch: EventEmitter<any> = new EventEmitter();
-  search = '';
-  filterType = 'title';
+  @Input() search = '';
+  @Input() filterType = 'title';
 
   constructor() {}
 
-  ngOnInit(): void {
-    if (this.filter.title) {
-      this.search = this.filter.title;
-      this.filterType = 'title';
-    }
-    if (this.filter.author) {
-      this.search = this.filter.author;
-      this.filterType = 'author';
-    }
-    if (this.filter.category) {
-      this.search = this.filter.category;
-      this.filterType = 'category';
-    }
+  ngOnInit(): void {}
+
+  changeSelectedFilter(event: Event) {
+    const selectElement = event.target as HTMLSelectElement;
+    const selectedValue = selectElement.value;
+    this.onSearch.emit({
+      [selectedValue]: this.search,
+      pageIdx: 1,
+    } as IBooksFilter);
   }
 
   onInput() {
-    this.filter[this.filterType] = this.search;
-    this.onSearch.emit(this.search);
+    this.onSearch.emit({
+      [this.filterType]: this.search,
+      pageIdx: 1,
+    } as IBooksFilter);
   }
 }

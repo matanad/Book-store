@@ -1,13 +1,26 @@
 <section class="main-nav-container">
   <nav>
-    <h1 class="logo" [routerLink]="['']">story<span>shelf</span></h1>
-    <app-search-bar [filter]="filter" (onSearch)="onInput($event)" />
-    <div class="menu">
-      <a [routerLink]="['auth', 'login']">login</a>
-      <a>signup</a>
-      <a>all books</a>
-      <a [routerLink]="['account']">account</a>
+    <h1 class="logo" [routerLink]="['']" (click)="resetSearchFitler()">
+      story<span>shelf</span>
+    </h1>
+    <app-search-bar
+      [filter]="filter"
+      (onSearch)="onInput($event)"
+      [filterType]="filterType"
+      [search]="search"
+    ></app-search-bar>
+    <button class="hamburger" [class.open]="menuOpen" (click)="toggleMenu()">
+      ☰
+    </button>
+    <div class="menu" [class.open]="menuOpen">
+      <a [routerLink]="['']">All books</a>
+      <a *ngIf="!currUesr.id" [routerLink]="['auth', 'login']">Login</a>
+      <a *ngIf="!currUesr.id">Signup</a>
+      <a *ngIf="currUesr.id" [routerLink]="['account']">
+        {{ currUesr.firstName | titlecase }}
+      </a>
+      <a *ngIf="currUesr.isAdmin" [routerLink]="['admin/books']">Admin</a>
     </div>
   </nav>
 </section>
-<app-serach-tab [generes]="generes" />
+<app-serach-tab [generes]="generes" (onSearch)="onSearch($event)"></app-serach-tab>

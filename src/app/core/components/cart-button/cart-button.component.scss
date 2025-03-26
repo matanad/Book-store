@@ -10,6 +10,12 @@
   cursor: pointer;
   font-size: 1rem;
   z-index: 100;
+
+  @media (max-width: 768px) {
+    // Mobile
+    right: 14px;
+    bottom: 14px;
+  }
 }
 
 .cart-counter {
@@ -26,9 +32,21 @@
   font-weight: 700;
   right: 0;
   top: -9px;
+
+  @media (max-width: 768px) {
+    // Mobile
+    width: 25px;
+    height: 25px;
+  }
 }
 
 .cart-img {
-    overflow: hidden;
-    border-radius: 10rem;
+  overflow: hidden;
+  border-radius: 10rem;
+
+  @media (max-width: 768px) {
+    // Mobile
+    width: 70px;
+    height: 70px;
+  }
 }

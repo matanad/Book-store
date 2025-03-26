@@ -1,0 +1,49 @@
+@use "../../../../assets/styles/setup/_variables.scss" as *;
+
+:host {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  max-width: 40%;
+  margin: 0 auto;
+  text-align: center;
+  cursor: default;
+}
+
+h1 {
+    font-size: 11rem;
+    font-weight: 600;
+    color: $background-color;
+    position: relative;
+}
+
+.icon {
+  position: absolute;
+  width: 80px;
+  height: 120px;
+  background-image: url("../../../../assets/imgs/sad-book.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  z-index: -1;
+//   left: 343px;
+  margin-bottom: 80px;
+}
+
+h2 {
+  text-transform: uppercase;
+  margin-bottom: 24px;
+  font-size: 2rem;
+  font-weight: 400;
+}
+
+a {
+  color: $background-color;
+  border-bottom: 1px $background-color dashed;
+  margin-inline-start: 4px;
+
+  &:hover {
+    text-decoration: none;
+  }
+}

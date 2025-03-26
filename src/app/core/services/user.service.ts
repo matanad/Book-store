@@ -49,7 +49,11 @@ export class UserService {
     }
   }
 
-  login(email: string, password: string): Observable<boolean> {
+  login(
+    email: string,
+    password: string,
+    isAdmin: boolean = false
+  ): Observable<boolean> {
     return this.storageService.query<User>(this.USER_DB).pipe(
       take(1),
       map((users) => {
@@ -59,6 +63,9 @@ export class UserService {
         );
         if (!user) {
           return false;
+        }
+        if (!user.isAdmin && isAdmin) {
+          throw new Error('You do not have permission to log in.');
         }
         this._currentUserSub.next(user);
         this._isAuthanticatedSub.next(true);

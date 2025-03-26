@@ -4,3 +4,8 @@
   [(ngModel)]="search"
   placeholder="Search books"
 />
+<select (change)="changeSelectedFilter($event)" [value]="filterType">
+  <option value="title">Title</option>
+  <option value="author">Author</option>
+  <option value="category">Genere</option>
+</select>

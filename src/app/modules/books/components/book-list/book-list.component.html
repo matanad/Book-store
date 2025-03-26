@@ -1,4 +1,9 @@
-<h1 class="list-title">Our Books</h1>
+<header>
+  <button class="add-book-btn" *ngIf="isAdmin" (click)="onAddBook()">
+    Add book
+  </button>
+  <h1 class="list-title">Our Books</h1>
+</header>
 <ul *ngIf="!isLoading">
   <li *ngFor="let book of books" [routerLink]="`/${book.id}`">
     <div
@@ -14,102 +19,19 @@
     <img src="{{ book.imgUrl }}" alt="{{ book.title }}" />
     <h1>{{ book.title | titlecase }}</h1>
     <h2>by {{ book.author }}</h2>
-    <p>{{ book.category }}</p>
+    <p class="category">{{ book.category }}</p>
     <button class="add-to-cart-btn" (click)="addToCart($event, book.id)">
       Add to cart {{ book.price | currency }}
     </button>
   </li>
 </ul>
 <ul *ngIf="isLoading">
-  <li class="book-loader is-loading">
-    <div class="book-loader-img"></div>
-    <div class="content">
-      <h2></h2>
-      <p></p>
-    </div>
-  </li>
-  <li class="book-loader is-loading">
-    <div class="book-loader-img"></div>
-    <div class="content">
-      <h2></h2>
-      <p></p>
-    </div>
-  </li>
-  <li class="book-loader is-loading">
-    <div class="book-loader-img"></div>
-    <div class="content">
-      <h2></h2>
-      <p></p>
-    </div>
-  </li>
-  <li class="book-loader is-loading">
-    <div class="book-loader-img"></div>
-    <div class="content">
-      <h2></h2>
-      <p></p>
-    </div>
-  </li>
-  <li class="book-loader is-loading">
-    <div class="book-loader-img"></div>
-    <div class="content">
-      <h2></h2>
-      <p></p>
-    </div>
-  </li>
-  <li class="book-loader is-loading">
-    <div class="book-loader-img"></div>
-    <div class="content">
-      <h2></h2>
-      <p></p>
-    </div>
-  </li>
-  <li class="book-loader is-loading">
-    <div class="book-loader-img"></div>
-    <div class="content">
-      <h2></h2>
-      <p></p>
-    </div>
-  </li>
-  <li class="book-loader is-loading">
-    <div class="book-loader-img"></div>
-    <div class="content">
-      <h2></h2>
-      <p></p>
-    </div>
-  </li>
-  <li class="book-loader is-loading">
-    <div class="book-loader-img"></div>
-    <div class="content">
-      <h2></h2>
-      <p></p>
-    </div>
-  </li>
-  <li class="book-loader is-loading">
-    <div class="book-loader-img"></div>
-    <div class="content">
-      <h2></h2>
-      <p></p>
-    </div>
-  </li>
-  <li class="book-loader is-loading">
-    <div class="book-loader-img"></div>
-    <div class="content">
-      <h2></h2>
-      <p></p>
-    </div>
-  </li>
-  <li class="book-loader is-loading">
-    <div class="book-loader-img"></div>
-    <div class="content">
-      <h2></h2>
-      <p></p>
-    </div>
-  </li>
+  <app-book-loader *ngFor="let i of getLoadingBooks()" />
 </ul>
 <div class="paging-container">
   <button (click)="onChangePage(-1, true)" class="paging-btn">prev</button>
   <button
-    *ngFor="let i of [].constructor(maxPages); let index = index"
+    *ngFor="let i of getPages(); let index = index"
     class="paging-btn"
     [ngClass]="{ active: filterBy.pageIdx === index + 1 }"
     (click)="onChangePage(index + 1)"
@@ -119,7 +41,7 @@
   <button class="paging-btn" (click)="onChangePage(1, true)">next</button>
 </div>
 <app-modal
-  *ngIf="isAdmin && bookToEdit.id"
+  *ngIf="isAdmin && bookToEdit.price"
   [book]="bookToEdit"
   (onSave)="saveBook($event)"
   (onClose)="onCloseModal()"

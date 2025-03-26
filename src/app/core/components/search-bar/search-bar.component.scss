@@ -1,6 +1,37 @@
-input {
+:host {
   background-color: whitesmoke;
   border: 0.5px solid rgba(0, 0, 0, 0.296);
+  border-radius: 4px;
+  padding-inline: 4px;
+  display: flex;
+  align-items: center;
+}
+
+input {
+  background-color: inherit;
   padding-block: 6px;
   width: 350px;
+  margin-inline-end: 4px;
+
+  &:focus-visible{
+    outline: 0;
+  }
+
+  @media (max-width: 1024px) { // Tablet
+    width: 250px;
+  }
+
+  @media (max-width: 768px) { // Mobile
+    width: 200px;
+  }
+}
+
+select {
+  height: 100%;
+  border: 0;
+  background-color: inherit;
+
+  &:focus-visible{
+    outline: 0;
+  }
 }

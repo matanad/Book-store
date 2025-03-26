@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output, output } from '@angular/core';
 
 @Component({
   selector: 'app-serach-tab',
@@ -8,4 +8,9 @@ import { Component, Input } from '@angular/core';
 })
 export class SerachTabComponent {
   @Input() generes!: string[];
+  @Output() onSearch = new EventEmitter();
+
+  onGenereClick(category: string) {
+    this.onSearch.emit(category);
+  }
 }

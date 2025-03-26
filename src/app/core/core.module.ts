@@ -7,6 +7,7 @@ import { SearchBarComponent } from './components/search-bar/search-bar.component
 import { RouterModule } from '@angular/router';
 import { CartButtonComponent } from './components/cart-button/cart-button.component';
 import { SerachTabComponent } from './components/serach-tab/serach-tab.component';
+import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 
 @NgModule({
   declarations: [
@@ -15,6 +16,7 @@ import { SerachTabComponent } from './components/serach-tab/serach-tab.component
     SearchBarComponent,
     CartButtonComponent,
     SerachTabComponent,
+    PageNotFoundComponent,
   ],
   imports: [CommonModule, FormsModule, RouterModule],
   exports: [HeaderComponent, FooterComponent, CartButtonComponent],

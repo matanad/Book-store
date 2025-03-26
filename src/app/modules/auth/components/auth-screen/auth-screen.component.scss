@@ -24,6 +24,10 @@
   background-image: url("https://st.depositphotos.com/1029736/1227/v/450/depositphotos_12274242-stock-illustration-vintage-seamless-book-background.jpg");
   @include book-cover-border;
   color: white;
+
+  @media (max-width: 768px) {
+    display: none;
+  }
 }
 
 .auth-component-container {
@@ -31,12 +35,21 @@
   background-color: #fff;
   padding: 80px 64px;
 
+  @media (max-width: 768px) {
+    width: 100%;
+    padding: 30px 14px;
+  }
+
   h1 {
     font-family: "EB Garamond", serif;
     display: inline-block;
     margin-bottom: 24px;
     color: $background-color;
     font-size: 4rem;
+
+    @media (max-width: 768px) {
+      margin-top: 24px;
+    }
   }
 
   .nav-contianer {
@@ -64,6 +77,10 @@
         opacity: 1;
       }
     }
+    @media (max-width: 768px) {
+      width: 100%;
+      padding: 30px 14px;
+    }
   }
 }
 
@@ -74,9 +91,10 @@
 
 .exit-btn-container {
   position: absolute;
-  top: 40px;
+  top: 30px;
   left: 20px;
-  
+  z-index: 1;
+
   div {
     position: absolute;
     cursor: pointer;
@@ -90,5 +108,23 @@
 
   .second-line {
     transform: rotate(-45deg);
+  }
+
+  @media (max-width: 768px) {
+    // Mobile
+    div {
+      background-color: rgb(60, 59, 59);
+      width: 30px;
+    }
+
+    .first-line {
+      transform: rotate(135deg);
+      top: -6px;
+    }
+
+    .second-line {
+      transform: rotate(-135deg);
+      top: 10px;
+    }
   }
 }
