@@ -18,7 +18,6 @@ export class AdminGuard implements CanActivate {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): MaybeAsync<GuardResult> {
-    console.log('guard');
     return this.userService.$currentUser.pipe(
       take(1),
       map((currentUser) => {

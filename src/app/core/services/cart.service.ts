@@ -28,7 +28,6 @@ export class CartService {
     this.userService.$currentUser.subscribe((user) => {
       if (user.id != undefined) this.userID = user.id;
       else this.userID = 'visitor';
-      console.log('cartservice', user.id);
       this._cart = new Cart(this.userID);
       this.storageService
         .get<ICart>(this.CART_DB, this.userID)
@@ -45,7 +44,7 @@ export class CartService {
             this._cartCounterSub.next(this._cart.cartCounter);
             this.storageService.post(this.CART_DB, this._cart).subscribe({
               next: () => console.log('cart saved'),
-              error: (err) => console.log(err),
+              error: (err) => console.error(err),
             });
           },
         });
@@ -133,8 +132,11 @@ export class CartService {
   }
 
   purchase() {
+    this._cartCounterSub.next(0);
+    this._cartItemsSub.next([]);
+    this._cart = new Cart(this.userID);
     this.storageService
-      .remove(this.CART_DB, this._cart.id)
+      .put(this.CART_DB, this._cart)
       .subscribe({ next: () => this.query() });
   }
 

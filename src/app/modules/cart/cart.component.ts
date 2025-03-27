@@ -23,6 +23,7 @@ export class CartComponent implements OnInit {
     this.cartService.$cartItems.subscribe({
       next: (items) => {
         this.cartItems = items;
+        if (items.length === 0) this.books = [];
         this.cartItems.forEach((cartItem) => {
           this.booksService.getById(cartItem.id).subscribe({
             next: (book) => {

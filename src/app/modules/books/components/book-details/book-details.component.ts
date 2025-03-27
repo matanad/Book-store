@@ -27,8 +27,6 @@ export class BookDetailsComponent implements OnInit {
     this.activatedRouter.paramMap.subscribe((params) => {
       const bookId = params.get('id');
       if (bookId == null) {
-        console.log(bookId);
-
         this.router.navigateByUrl('');
       } else
         this.booksService.getById(bookId).subscribe({

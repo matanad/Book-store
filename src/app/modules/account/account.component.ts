@@ -12,6 +12,7 @@ import {
 } from '@angular/forms';
 import { Router } from '@angular/router';
 import validator from 'validator';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-account',
@@ -31,7 +32,7 @@ export class AccountComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private userService: UserService,
-    private router: Router
+    private snackBar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
@@ -48,12 +49,29 @@ export class AccountComponent implements OnInit {
     user.email = this.email?.value;
     user.firstName = this.firstName?.value;
     user.lastName = this.lastName?.value;
+    if (this.password?.valid && this.confirmPassword?.valid)
+      user.password = this.password.value;
+    else {
+      this.snackBar.open('Your details are invalid!', 'Close', {
+        duration: 3000,
+        panelClass: ['success-snackbar'],
+      });
+      return;
+    }
+
     this.userService
       .updateUserDetails(user)
       .pipe(take(1))
       .subscribe({
         next: () => {
-          console.log('scc', this.email?.errors);
+          this.snackBar.open(
+            'Your details have been successfully updated!',
+            'Close',
+            {
+              duration: 3000,
+              panelClass: ['success-snackbar'],
+            }
+          );
         },
         error: (err) => {
           console.error(err);
@@ -77,12 +95,16 @@ export class AccountComponent implements OnInit {
         this.emailValidator,
         this.emailExistValidator,
       ]),
-      password: new FormControl('', [
-        Validators.required,
-        // Validators.minLength(0)
-        this.strongPasswordValidator,
-      ]),
-      confirmPassword: new FormControl('', []),
+      password: new FormControl(
+        '',
+        Validators.compose([(control) => this.strongPasswordValidator(control)])
+      ),
+      confirmPassword: new FormControl(
+        '',
+        Validators.compose([
+          (control) => this.confirmPasswordValidator(control),
+        ])
+      ),
     });
 
     this.firstName = this.editUserForm.get('firstName');
@@ -90,21 +112,10 @@ export class AccountComponent implements OnInit {
     this.email = this.editUserForm.get('email');
     this.password = this.editUserForm.get('password');
     this.confirmPassword = this.editUserForm.get('confirmPassword');
-
-    this.editUserForm.controls?.['password'].valueChanges.subscribe(
-      (change) => {
-        console.log(change);
-      }
-    );
   }
 
   emailExistValidator(control: FormGroup): ValidationErrors | null {
     let isEmailExist = false;
-    // if (control.valid) {
-    //   this.userService.isEmailExist(this.user.id, this.email?.value).subscribe({
-    //     error: () => (isEmailExist = true),
-    //   });
-    // }
     return null;
   }
 
@@ -117,6 +128,11 @@ export class AccountComponent implements OnInit {
       confirmPassword: '',
     };
     this.editUserForm.setValue(userData);
+
+    this.snackBar.open('Your changes have been canceled.', 'Close', {
+      duration: 3000,
+      panelClass: ['cancel-snack'],
+    });
   }
 
   onLogout() {
@@ -125,6 +141,10 @@ export class AccountComponent implements OnInit {
 
   onDelete() {
     this.userService.delete(this.user.id);
+    this.snackBar.open('Your account has been deleted successfully!', 'Close', {
+      duration: 3000,
+      panelClass: ['success-snack'],
+    });
   }
 
   emailValidator(control: FormGroup): ValidationErrors | null {
@@ -133,7 +153,7 @@ export class AccountComponent implements OnInit {
     return !validator.isEmail(email) ? { invalidEmail: true } : null;
   }
 
-  strongPasswordValidator(control: FormGroup): ValidationErrors | null {
+  strongPasswordValidator(control: AbstractControl): ValidationErrors | null {
     const password: string = control.value;
     if (password == undefined || password.trim() == '') return null;
     return !validator.isStrongPassword(password)
@@ -141,7 +161,7 @@ export class AccountComponent implements OnInit {
       : null;
   }
 
-  confirmPasswordValidator(control: FormGroup): ValidationErrors | null {
+  confirmPasswordValidator(control: AbstractControl): ValidationErrors | null {
     const password = control.parent?.get('password')?.value;
     const confirmPassword = control.value;
     return password !== confirmPassword ? { passwordnotrepeated: true } : null;
@@ -153,8 +173,6 @@ export class AccountComponent implements OnInit {
     if (errors?.['invalidEmail'])
       return 'Invalid email. Use a valid format like name@example.com.';
     if (errors?.['emailExist']) {
-      console.log('exist');
-
       return 'Email is alraedy exist.';
     }
     return '';

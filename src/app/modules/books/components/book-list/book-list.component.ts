@@ -135,15 +135,13 @@ export class BookListComponent implements OnInit {
     event.stopPropagation();
     if (!this.isLogedInUser) {
       this.router.navigate(['auth']);
-      return
+      return;
     }
     this.cartService.addBook(bookId);
   }
 
   deleteBook(event: MouseEvent, bookId: string) {
     event.stopPropagation();
-    console.log(this.isAdmin);
-
     if (this.isAdmin)
       this.booksService
         .remove(bookId)

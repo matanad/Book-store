@@ -10,6 +10,7 @@
           placeholder="Enter first name"
           formControlName="firstName"
         />
+        <mat-error>First name cannot be empty</mat-error>
       </mat-form-field>
 
       <mat-form-field appearance="outline" class="full-width">
@@ -20,6 +21,7 @@
           placeholder="Enter last name"
           formControlName="lastName"
         />
+        <mat-error>Last name cannot be empty</mat-error>
       </mat-form-field>
 
       <mat-form-field appearance="outline" class="full-width">
@@ -41,6 +43,7 @@
           placeholder="******"
           formControlName="password"
         />
+        <mat-error>{{ getPasswordErrorMessage() }}</mat-error>
       </mat-form-field>
       <mat-form-field appearance="outline" class="full-width">
         <mat-label>Confirm Password</mat-label>
@@ -50,6 +53,7 @@
           placeholder="******"
           formControlName="confirmPassword"
         />
+        <mat-error>{{ getConfirmPasswordErrorMessage() }}</mat-error>
       </mat-form-field>
 
       <div class="button-group">

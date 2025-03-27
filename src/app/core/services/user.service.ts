@@ -83,17 +83,23 @@ export class UserService {
     return this.storageService.query<User>(this.USER_DB).pipe(
       take(1),
       switchMap((users) => {
-        const user = users.filter(
+        let user = users.filter(
           (user) =>
             user.id !== userToUpdate.id && user.email !== userToUpdate.email
         );
         if (user.length === 0) {
           return throwError(() => new Error('email is already exist'));
         } else {
+          user = users.filter((user) => user.id === userToUpdate.id);
+          if (user[0].password !== userToUpdate.password)
+            userToUpdate.password = this._encript(userToUpdate.password);
           this.storageService
             .put(this.USER_DB, userToUpdate)
             .pipe(take(1))
-            .subscribe({ error: (err) => console.error(err) });
+            .subscribe({
+              next: (user) => this._currentUserSub.next(user),
+              error: (err) => console.error(err),
+            });
           return of(user);
         }
       })
