@@ -2,10 +2,10 @@
   <button class="add-book-btn" *ngIf="isAdmin" (click)="onAddBook()">
     Add book
   </button>
-  <h1 class="list-title" [ngClass]="{admin: isAdmin}">Our Books</h1>
+  <h1 class="list-title" [ngClass]="{ admin: isAdmin }">Our Books</h1>
 </header>
 <ul *ngIf="!isLoading">
-  <li *ngFor="let book of books" [routerLink]="`/${book.id}`">
+  <li *ngFor="let book of books" [routerLink]="['/book', book.id]">
     <div
       class="delete-btn"
       *ngIf="isAdmin"
