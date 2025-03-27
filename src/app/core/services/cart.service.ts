@@ -26,11 +26,12 @@ export class CartService {
 
   query() {
     this.userService.$currentUser.subscribe((user) => {
-      console.log('hiii', user.id);
-      this.userID = user.id;
-      this._cart = new Cart(user.id);
+      if (user.id != undefined) this.userID = user.id;
+      else this.userID = 'visitor';
+      console.log('cartservice', user.id);
+      this._cart = new Cart(this.userID);
       this.storageService
-        .get<ICart>(this.CART_DB, user.id)
+        .get<ICart>(this.CART_DB, this.userID)
         .pipe(take(1))
         .subscribe({
           next: (cart) => {
@@ -39,9 +40,13 @@ export class CartService {
             this._cartCounterSub.next(cart.cartCounter);
           },
           error: (err) => {
-            console.error(err);
+            console.error(err, this._cart);
             this._cartItemsSub.next(this._cart.items);
             this._cartCounterSub.next(this._cart.cartCounter);
+            this.storageService.post(this.CART_DB, this._cart).subscribe({
+              next: () => console.log('cart saved'),
+              error: (err) => console.log(err),
+            });
           },
         });
     });
@@ -58,81 +63,41 @@ export class CartService {
       if (cartItemIdx >= 0) {
         this._cart.items[cartItemIdx].quantity++;
         this._cart.cartCounter++;
-
-        return this.storageService.put(this.CART_DB, this._cart).pipe(
-          take(1),
-          tap({
-            next: (cart) => {
-              this._cartCounterSub.next(cart.cartCounter);
-              this._cartItemsSub.next(cart.items);
-              this._cart = cart;
-            },
-            error: (err) => {
-              this.storageService
-                .get<Cart>(this.CART_DB, this.userID)
-                .pipe(take(1))
-                .subscribe({
-                  next: (cart) => {
-                    this._cartCounterSub.next(cart.cartCounter);
-                    this._cartItemsSub.next(cart.items);
-                    this._cart = cart;
-                    console.error(
-                      'Error occurred, data updated from server',
-                      err
-                    );
-                  },
-                  error: (serverErr) => {
-                    console.error(
-                      'Error fetching cart from server:',
-                      serverErr
-                    );
-                  },
-                });
-              console.error('Error updating cart, reverting changes', err);
-            },
-          })
-        );
       } else {
         this._cart.items.push(cartItem);
         this._cart.cartCounter++;
-
-        return this.storageService.post(this.CART_DB, this._cart).pipe(
-          take(1),
-          tap({
-            next: (cart) => {
-              this._cartCounterSub.next(cart.cartCounter);
-              this._cartItemsSub.next(cart.items);
-            },
-            error: (err) => {
-              // במקרה של שגיאה, אנו מבקשים את המידע מהשרת מחדש
-              this.storageService
-                .get<Cart>(this.CART_DB, this.userID)
-                .pipe(take(1))
-                .subscribe({
-                  next: (cart) => {
-                    this._cartCounterSub.next(cart.cartCounter);
-                    this._cartItemsSub.next(cart.items);
-                    this._cart = cart;
-                    console.error(
-                      'Error occurred, data updated from server',
-                      err
-                    );
-                  },
-                  error: (serverErr) => {
-                    console.error(
-                      'Error fetching cart from server:',
-                      serverErr
-                    );
-                  },
-                });
-              console.error(
-                'Error adding item to cart, reverting changes',
-                err
-              );
-            },
-          })
-        );
       }
+
+      return this.storageService.put(this.CART_DB, this._cart).pipe(
+        take(1),
+        tap({
+          next: (cart) => {
+            this._cartCounterSub.next(cart.cartCounter);
+            this._cartItemsSub.next(cart.items);
+            this._cart = cart;
+          },
+          error: (err) => {
+            this.storageService
+              .get<Cart>(this.CART_DB, this.userID)
+              .pipe(take(1))
+              .subscribe({
+                next: (cart) => {
+                  this._cartCounterSub.next(cart.cartCounter);
+                  this._cartItemsSub.next(cart.items);
+                  this._cart = cart;
+                  console.error(
+                    'Error occurred, data updated from server',
+                    err
+                  );
+                },
+                error: (serverErr) => {
+                  console.error('Error fetching cart from server:', serverErr);
+                },
+              });
+            console.error('Error updating cart, reverting changes', err);
+          },
+        })
+      );
     });
   }
 

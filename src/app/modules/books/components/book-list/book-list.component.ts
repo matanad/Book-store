@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { BookService } from '../../../../core/services/book.service';
 import { CartService } from '../../../../core/services/cart.service';
 import { Book, IBooksFilter } from '../../../../core/models/book.model';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { map, take } from 'rxjs';
 import { UserService } from '../../../../core/services/user.service';
 
@@ -25,7 +25,8 @@ export class BookListComponent implements OnInit {
   constructor(
     private booksService: BookService,
     private cartService: CartService,
-    private route: ActivatedRoute,
+    private acticatedRoute: ActivatedRoute,
+    private router: Router,
     private userService: UserService
   ) {}
 
@@ -43,7 +44,7 @@ export class BookListComponent implements OnInit {
     });
     this.booksService.$activeFilter.subscribe((res) => (this.filterBy = res));
 
-    const fullPath = this.route.snapshot.pathFromRoot
+    const fullPath = this.acticatedRoute.snapshot.pathFromRoot
       .map((r) => r.routeConfig?.path)
       .filter((path) => path)
       .join('/');
@@ -132,7 +133,10 @@ export class BookListComponent implements OnInit {
 
   addToCart(event: MouseEvent, bookId: string) {
     event.stopPropagation();
-    if (!this.isLogedInUser) return;
+    if (!this.isLogedInUser) {
+      this.router.navigate(['auth']);
+      return
+    }
     this.cartService.addBook(bookId);
   }
 

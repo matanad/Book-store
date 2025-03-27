@@ -15,7 +15,7 @@
     <div class="menu" [class.open]="menuOpen">
       <a [routerLink]="['']">All books</a>
       <a *ngIf="!currUesr.id" [routerLink]="['auth', 'login']">Login</a>
-      <a *ngIf="!currUesr.id">Signup</a>
+      <a *ngIf="!currUesr.id" [routerLink]="['auth', 'signup']">Signup</a>
       <a *ngIf="currUesr.id" [routerLink]="['account']">
         {{ currUesr.firstName | titlecase }}
       </a>

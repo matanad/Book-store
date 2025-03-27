@@ -1,17 +1,21 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AdminComponent } from './admin.component';
+import { AdminGuard } from '../../core/guards/admin.guard';
+import { AuthGuard } from '../../core/guards/auth.guard';
 
 const routes: Routes = [
-  { path: '', component: AdminComponent },
+  { path: '', redirectTo: 'books', pathMatch: 'full' },
   {
     path: 'books',
     loadChildren: () =>
       import('../books/books.module').then((m) => m.BooksModule),
+    canActivate: [AdminGuard],
   },
   {
     path: 'auth',
     loadChildren: () => import('../auth/auth.module').then((m) => m.AuthModule),
+    canActivate: [AuthGuard],
   },
 ];
 
