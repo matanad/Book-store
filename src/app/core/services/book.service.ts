@@ -4,6 +4,7 @@ import booksJSON from '../../../data/books.json';
 import { AsyncStorageService } from './async-storage.service';
 import { Book, IBooksFilter } from '../models/book.model';
 import { UserService } from './user.service';
+import { _IdGenerator } from '@angular/cdk/a11y';
 
 @Injectable({
   providedIn: 'root',
@@ -59,6 +60,7 @@ export class BookService {
   }
 
   addBook(newBook: Book) {
+    if (newBook.id === '') newBook.id = _generateId();
     return this.storageService.post(this.STORAGE_KEY, newBook);
   }
 
@@ -112,4 +114,13 @@ export class BookService {
     if (book.id) return this.storageService.put(this.STORAGE_KEY, book);
     else return this.storageService.post(this.STORAGE_KEY, book);
   }
+}
+
+function _generateId(length: number = 8) {
+  const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  let id = '';
+  for (let i = 0; i < length; i++)
+    id += chars[Math.floor(Math.random() * chars.length)];
+
+  return id;
 }

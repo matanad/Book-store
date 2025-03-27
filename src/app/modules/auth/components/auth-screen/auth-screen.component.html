@@ -2,12 +2,19 @@
   <div class="first-line"></div>
   <div class="second-line"></div>
 </div>
-<section class="auth-screen"></section>
+<section class="auth-screen-container">
+  <div class="auth-screen" [@fadeAnimationComponent]></div>
+</section>
 <section class="auth-component-container">
   <h1>Hello</h1>
   <div class="nav-contianer">
     <a [routerLink]="['login']" routerLinkActive="active-link">Login</a>
-    <a [routerLink]="['signup']" routerLinkActive="active-link" *ngIf="!isAdminRoute">Signup</a>
+    <a
+      [routerLink]="['signup']"
+      routerLinkActive="active-link"
+      *ngIf="!isAdminRoute"
+      >Signup</a
+    >
   </div>
   <div class="outlet-container" [@fadeAnimation]="data">
     <router-outlet />

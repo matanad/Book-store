@@ -3,8 +3,10 @@
 :host {
   display: flex;
   height: 100%;
-justify-content: center;
-align-items: center;
+  justify-content: center;
+  align-items: center;
+  padding-block: 12px;
+  // transform: scale(1.1);
 }
 
 .account-card {

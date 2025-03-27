@@ -1,5 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { fadeAnimation } from '../../../../animations/animations';
+import {
+  fadeAnimation,
+  fadeAnimationComponent,
+} from '../../../../animations/animations';
 import { ActivatedRoute, NavigationEnd, Route, Router } from '@angular/router';
 import { filter, Subscription } from 'rxjs';
 
@@ -8,12 +11,13 @@ import { filter, Subscription } from 'rxjs';
   standalone: false,
   templateUrl: './auth-screen.component.html',
   styleUrl: './auth-screen.component.scss',
-  animations: [fadeAnimation],
+  animations: [fadeAnimation, fadeAnimationComponent],
 })
 export class AuthScreenComponent implements OnInit, OnDestroy {
   protected data: string = '';
   subscription: Subscription = new Subscription();
   isAdminRoute: boolean = false;
+  isFade = false;
 
   constructor(private route: ActivatedRoute, private router: Router) {}
 

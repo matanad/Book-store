@@ -124,7 +124,7 @@ export class BookListComponent implements OnInit {
     const filter = { ...this.filterBy };
     if (!this.filterBy.pageIdx || !filter.pageIdx) return;
     if (nextPrev)
-      if (filter.pageIdx + page < 1 || filter.pageIdx + page >= this.maxPages)
+      if (filter.pageIdx + page < 1 || filter.pageIdx + page > this.maxPages)
         return;
       else filter.pageIdx += page;
     else filter.pageIdx = page;
