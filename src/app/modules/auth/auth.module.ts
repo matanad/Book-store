@@ -21,5 +21,6 @@ import { provideAnimations } from '@angular/platform-browser/animations';
     MatFormFieldModule,
     MatInputModule,
   ],
+  exports: [SignupComponent],
 })
 export class AuthModule {}

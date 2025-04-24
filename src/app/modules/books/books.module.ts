@@ -11,6 +11,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { BookLoaderComponent } from './components/book-loader/book-loader.component';
+import { MatIconModule } from '@angular/material/icon';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { BookLoaderComponent } from './components/book-loader/book-loader.compon
     MatCardModule,
     MatInputModule,
     MatButtonModule,
+    MatIconModule,
   ],
 })
 export class BooksModule {}

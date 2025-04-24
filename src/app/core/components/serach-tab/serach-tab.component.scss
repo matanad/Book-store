@@ -1,3 +1,5 @@
+@use "../../../../assets/styles/setup/_variables.scss" as *;
+
 :host {
   display: block;
   width: 100%;
@@ -11,18 +13,35 @@ ul {
   justify-content: center;
   align-items: center;
   gap: 10px;
-  overflow-x: scroll;
-  max-width: 100vw;
-  &::-webkit-scrollbar {
-    display: none;
+  overflow-x: auto;
+  max-width: calc(100vw - 30px);
+}
+ul::-webkit-scrollbar {
+  height: 3px;
+
+}
+  ul:hover::-webkit-scrollbar{
+    height: 6px;
   }
+
+ul::-webkit-scrollbar-thumb {
+  background: rgba(211, 211, 211, 0.589);
+  border-radius: 500px;
+}
+
+ul::-webkit-scrollbar-track {
+  background: $accent-color;
+}
+
+ul::-webkit-scrollbar-button {
+  display: none;
 }
 
 li {
   cursor: pointer;
 
-  &:not(:last-child):after{
-    content: '|';
+  &:not(:last-child):after {
+    content: "|";
     font-weight: 600;
   }
 

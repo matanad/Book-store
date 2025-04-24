@@ -9,6 +9,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { SignupComponent } from '../auth/components/signup/signup.component';
+import { AuthModule } from '../auth/auth.module';
 
 @NgModule({
   declarations: [AccountComponent],
@@ -22,6 +24,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     FormsModule,
     ReactiveFormsModule,
     MatSnackBarModule,
+    AuthModule,
   ],
 })
 export class AccountModule {}

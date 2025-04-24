@@ -11,10 +11,10 @@
       *ngIf="isAdmin"
       (click)="deleteBook($event, book.id)"
     >
-      X
+      <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="delete"></mat-icon>
     </div>
     <div class="edit-btn" *ngIf="isAdmin" (click)="editBook($event, book)">
-      Edit
+      <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="edit"></mat-icon>
     </div>
     <img src="{{ book.imgUrl }}" alt="{{ book.title }}" />
     <h1>{{ book.title | titlecase }}</h1>
