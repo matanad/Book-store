@@ -1,45 +1,34 @@
-interface IBook {
+export interface Book {
   id: string;
   title: string;
-  author: string;
+  author: Author;
   description: string;
   category: string;
   imgUrl: string;
   price: number;
 }
 
-export class Book implements IBook {
-  constructor(
-    public id: string,
-    public title: string,
-    public author: string,
-    public description: string,
-    public category: string,
-    public imgUrl: string,
-    public price: number
-  ) {}
+export interface Author{
+  id: string;
+  name: string
+}
 
-  static fromJson(bookJson: any): Book {
-    return new Book(
-      bookJson.id,
-      bookJson.title,
-      bookJson.author,
-      bookJson.description,
-      bookJson.category,
-      bookJson.imgUrl,
-      bookJson.price
-    );
-  }
+export interface BookListResponse {
+  books: Book[];
+  totalPages: number;
+  totalCount: number;
+  page: number;
+  pageSize: number;
 }
 
 export interface IBooksFilter {
-    pageIdx?: number;
-    sort?: string;
-    order?: number;
-    title?: string;
-    description?: string;
-    author?: string;
-    category?: string;
-    [key: string]: any;
-  }
-  
+  page?: number;
+  pageSize?: number;
+  sort?: string;
+  order?: number;
+  title?: string;
+  description?: string;
+  author?: string;
+  category?: string;
+  [key: string]: any;
+}

@@ -3,6 +3,7 @@ import { BookService } from '../../services/book.service';
 import { IBooksFilter } from '../../models/book.model';
 import { UserService } from '../../services/user.service';
 import { User } from '../../models/user.model';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-header',
@@ -20,10 +21,22 @@ export class HeaderComponent implements OnInit {
 
   constructor(
     private booksService: BookService,
-    private userService: UserService
+    private userService: UserService,
+    private route: ActivatedRoute,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
+    this.route.queryParams.subscribe((params) => {
+      this.filter = {
+        author: params['author'] ?? '',
+        category: params['category'] ?? '',
+        page: params['page'] ? +params['page'] : 1,
+      };
+
+      this.booksService.fetchBooks(this.filter);
+    });
+
     this.booksService.$activeFilter.subscribe((filter) => {
       this.filter = filter;
       this.updateFilterType();
@@ -53,16 +66,28 @@ export class HeaderComponent implements OnInit {
       this.search = this.filter.category;
       this.filterType = 'category';
     }
+    this.updateQueryFromFilter();
   }
 
   onInput(event: any) {
-    this.booksService.query(event);
+    this.booksService.fetchBooks(event);
   }
   onSearch(input: string) {
-    this.booksService.query({ category: input, pageIdx: 1 } as IBooksFilter);
+    this.booksService.fetchBooks({ category: input, page: 1 } as IBooksFilter);
   }
 
   resetSearchFitler() {
-    this.booksService.query({ pageIdx: 1 } as IBooksFilter);
+    this.booksService.fetchBooks({ page: 1 });
+    this.updateQueryFromFilter();
+  }
+
+  updateQueryFromFilter() {
+    const params = { ...this.filter };
+
+    Object.keys(params).forEach((k) => params[k] === '' && delete params[k]);
+    this.router.navigate([], {
+      queryParams: params,
+      queryParamsHandling: 'merge',
+    });
   }
 }

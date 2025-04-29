@@ -32,7 +32,7 @@ export class BookDetailsComponent implements OnInit {
         this.booksService.getById(bookId).subscribe({
           next: (book) => (this.book = book),
           error: (err) => {
-            console.error(err + '.\nredirecting to books list');
+            console.error(err.message + '.\nredirecting to books list');
             this.router.navigateByUrl('');
           },
         });
@@ -52,7 +52,7 @@ export class BookDetailsComponent implements OnInit {
   }
 
   onGenereClick(category: string) {
-    const filter: IBooksFilter = { pageIdx: 1, category };
+    const filter: IBooksFilter = { page: 1, category };
     this.booksService.query(filter);
     this.router.navigateByUrl('');
   }

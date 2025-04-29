@@ -6,7 +6,7 @@
 </div>
 <div class="info-container" *ngIf="book">
   <h1>{{ book.title }}</h1>
-  <h2>by {{ book.author }}</h2>
+  <h2>by {{ book.author.name }}</h2>
   <div class="description">
     <p>{{ book.description }}</p>
     <p *ngIf="book.description.length < 100">

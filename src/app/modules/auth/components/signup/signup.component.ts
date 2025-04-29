@@ -64,26 +64,11 @@ export class SignupComponent {
 
   onSignUp() {
     if (this.signupForm.invalid) return;
-
+    console.log(this.signupForm.value);
+    
     this.userService
-      .signup(
-        this.firstName?.value,
-        this.lastName?.value,
-        this.email?.value,
-        this.password?.value
-      )
-      .pipe(take(1))
-      .subscribe({ next: () => this.login() });
-  }
-
-  login() {
-    this.userService
-      .login(this.email?.value, this.password?.value)
-      .subscribe((success) => {
-        if (success) {
-          this.router.navigate(['']);
-        }
-      });
+      .atteptAuth('', this.signupForm.value)
+      .subscribe({ next: () => this.router.navigate(['']) });
   }
 
   emailValidator(control: FormGroup): ValidationErrors | null {

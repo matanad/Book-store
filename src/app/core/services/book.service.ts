@@ -1,10 +1,22 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, map, max, Observable, throwError } from 'rxjs';
+import {
+  BehaviorSubject,
+  catchError,
+  finalize,
+  map,
+  max,
+  Observable,
+  take,
+  tap,
+  throwError,
+} from 'rxjs';
 import booksJSON from '../../../data/books.json';
 import { AsyncStorageService } from './async-storage.service';
-import { Book, IBooksFilter } from '../models/book.model';
+import { Book, BookListResponse, IBooksFilter } from '../models/book.model';
 import { UserService } from './user.service';
 import { _IdGenerator } from '@angular/cdk/a11y';
+import { ApiService } from './api.service';
+import { HttpParams } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root',
@@ -12,18 +24,23 @@ import { _IdGenerator } from '@angular/cdk/a11y';
 export class BookService {
   private _booksSub = new BehaviorSubject<Book[]>([]);
   public $books = this._booksSub.asObservable();
-  private _activeFilterSub = new BehaviorSubject<IBooksFilter>({});
-  public $activeFilter = this._activeFilterSub.asObservable();
   private _isLoadingSub = new BehaviorSubject<boolean>(false);
   public $isLoading = this._isLoadingSub.asObservable();
   private PAGE_SIZE: number = 10;
+  private _activeFilterSub = new BehaviorSubject<IBooksFilter>({
+    page: 1,
+    pageSize: this.PAGE_SIZE,
+  });
+  public $activeFilter = this._activeFilterSub.asObservable();
   private STORAGE_KEY = 'booksDB';
   private _maxPages = 1;
   private _isAdmin: boolean = false;
+  private API_KEY = '/books';
 
   constructor(
     private storageService: AsyncStorageService,
-    private userService: UserService
+    private userService: UserService,
+    private apiService: ApiService
   ) {
     const books = localStorage.getItem(this.STORAGE_KEY);
     if (!books)
@@ -31,6 +48,31 @@ export class BookService {
     userService.$currentUser.subscribe({
       next: (user) => (this._isAdmin = user.isAdmin),
     });
+  }
+
+  fetchBooks(filter: IBooksFilter = this._activeFilterSub.value) {
+    this._isLoadingSub.next(true);
+    const options = new HttpParams({ fromObject: filter });
+
+    return this.apiService
+      .get(this.API_KEY, options)
+      .pipe(
+        take(1),
+        tap<BookListResponse>((res) => {
+          this._maxPages = res.totalPages;
+          this._booksSub.next(res.books);
+        }),
+        catchError((err) => {
+          this._maxPages = 1;
+          this._booksSub.next([]);
+          return throwError(() => err);
+        }),
+        finalize(() => {
+          this._isLoadingSub.next(false);
+          this._activeFilterSub.next({ ...this._activeFilterSub.value, ...filter });
+        })
+      )
+      .subscribe();
   }
 
   query(filterBy: IBooksFilter) {
@@ -68,9 +110,9 @@ export class BookService {
     this._maxPages =
       Math.floor(books.length / this.PAGE_SIZE) +
       (books.length % this.PAGE_SIZE ? 1 : 0);
-    if (filterBy.pageIdx === undefined || this._maxPages === 1) return books;
+    if (filterBy.page === undefined || this._maxPages === 1) return books;
     const startIdx = Math.min(
-      +(filterBy.pageIdx - 1) * this.PAGE_SIZE,
+      +(filterBy.page - 1) * this.PAGE_SIZE,
       books.length
     );
     const endIdx = Math.min(startIdx + this.PAGE_SIZE, books.length);
@@ -102,7 +144,7 @@ export class BookService {
   }
 
   getById(bookId: string): Observable<Book> {
-    return this.storageService.get(this.STORAGE_KEY, bookId);
+    return this.apiService.get(this.API_KEY + '/' + bookId).pipe(take(1));
   }
 
   remove(bookId: string): Observable<Book> {

@@ -3,7 +3,7 @@ import { BookService } from '../../../../core/services/book.service';
 import { CartService } from '../../../../core/services/cart.service';
 import { Book, IBooksFilter } from '../../../../core/models/book.model';
 import { ActivatedRoute, Router } from '@angular/router';
-import { map, take } from 'rxjs';
+import { take } from 'rxjs';
 import { UserService } from '../../../../core/services/user.service';
 
 @Component({
@@ -15,7 +15,7 @@ import { UserService } from '../../../../core/services/user.service';
 export class BookListComponent implements OnInit {
   books: Book[] = [];
   maxPages: number = 1;
-  filterBy: IBooksFilter = { pageIdx: 1 };
+  filterBy: IBooksFilter = { page: 1 };
   isLoading: boolean = true;
   isAdmin: boolean = false;
   bookToEdit: Book = {} as Book;
@@ -37,7 +37,7 @@ export class BookListComponent implements OnInit {
     this.booksService.$activeFilter.subscribe((filter) => {
       this.filterBy = { ...filter, ...this.filterBy };
     });
-    this.booksService.query(this.filterBy);
+    // this.booksService.fetchBooks();
     this.booksService.$books.subscribe((books) => {
       this.maxPages = this.booksService.getMaxPages();
       this.books = books;
@@ -59,7 +59,7 @@ export class BookListComponent implements OnInit {
   onAddBook() {
     if (!this.isLogedInUser) return;
     this.isEditMode = false;
-    this.bookToEdit = new Book('', '', '', '', '', '', 1);
+    this.bookToEdit = { price: 1 } as Book;
   }
 
   getPages() {
@@ -122,13 +122,14 @@ export class BookListComponent implements OnInit {
 
   onChangePage(page: number, nextPrev: boolean = false) {
     const filter = { ...this.filterBy };
-    if (!this.filterBy.pageIdx || !filter.pageIdx) return;
+    if (!this.filterBy.page || !filter.page) return;
     if (nextPrev)
-      if (filter.pageIdx + page < 1 || filter.pageIdx + page > this.maxPages)
-        return;
-      else filter.pageIdx += page;
-    else filter.pageIdx = page;
-    this.booksService.query(filter);
+      if (filter.page + page < 1 || filter.page + page > this.maxPages) return;
+      else filter.page += page;
+    else filter.page = page;
+
+    console.log('changePage', filter);
+    this.booksService.fetchBooks(filter);
   }
 
   addToCart(event: MouseEvent, bookId: string) {

@@ -21,16 +21,17 @@ export class SearchBarComponent implements OnInit {
   changeSelectedFilter(event: Event) {
     const selectElement = event.target as HTMLSelectElement;
     const selectedValue = selectElement.value;
+    this.filterType = selectedValue;
     this.onSearch.emit({
       [selectedValue]: this.search,
-      pageIdx: 1,
+      page: 1,
     } as IBooksFilter);
   }
 
   onInput() {
     this.onSearch.emit({
       [this.filterType]: this.search,
-      pageIdx: 1,
+      page: 1,
     } as IBooksFilter);
   }
 }

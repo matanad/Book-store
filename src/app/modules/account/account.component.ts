@@ -45,39 +45,39 @@ export class AccountComponent implements OnInit {
   }
 
   onSubmit() {
-    const user = { ...this.user };
-    user.email = this.email?.value;
-    user.firstName = this.firstName?.value;
-    user.lastName = this.lastName?.value;
-    if (this.password?.valid && this.confirmPassword?.valid)
-      user.password = this.password.value;
-    else {
-      this.snackBar.open('Your details are invalid!', 'Close', {
-        duration: 3000,
-        panelClass: ['success-snackbar'],
-      });
-      return;
-    }
+    // const user = { ...this.user };
+    // user.email = this.email?.value;
+    // user.firstName = this.firstName?.value;
+    // user.lastName = this.lastName?.value;
+    // if (this.password?.valid && this.confirmPassword?.valid)
+    //   user.password = this.password.value;
+    // else {
+    //   this.snackBar.open('Your details are invalid!', 'Close', {
+    //     duration: 3000,
+    //     panelClass: ['success-snackbar'],
+    //   });
+    //   return;
+    // }
 
-    this.userService
-      .updateUserDetails(user)
-      .pipe(take(1))
-      .subscribe({
-        next: () => {
-          this.snackBar.open(
-            'Your details have been successfully updated!',
-            'Close',
-            {
-              duration: 3000,
-              panelClass: ['success-snackbar'],
-            }
-          );
-        },
-        error: (err) => {
-          console.error(err);
-          this.email?.setErrors({ emailExist: true });
-        },
-      });
+    // this.userService
+    //   .updateUserDetails(user)
+    //   .pipe(take(1))
+    //   .subscribe({
+    //     next: () => {
+    //       this.snackBar.open(
+    //         'Your details have been successfully updated!',
+    //         'Close',
+    //         {
+    //           duration: 3000,
+    //           panelClass: ['success-snackbar'],
+    //         }
+    //       );
+    //     },
+    //     error: (err) => {
+    //       console.error(err);
+    //       this.email?.setErrors({ emailExist: true });
+    //     },
+    //   });
   }
 
   initFb() {
@@ -136,15 +136,15 @@ export class AccountComponent implements OnInit {
   }
 
   onLogout() {
-    this.userService.logout();
+    this.userService.purgeAuth();
   }
 
   onDelete() {
-    this.userService.delete(this.user.id);
-    this.snackBar.open('Your account has been deleted successfully!', 'Close', {
-      duration: 3000,
-      panelClass: ['success-snack'],
-    });
+    // this.userService.delete(this.user.id);
+    // this.snackBar.open('Your account has been deleted successfully!', 'Close', {
+    //   duration: 3000,
+    //   panelClass: ['success-snack'],
+    // });
   }
 
   emailValidator(control: FormGroup): ValidationErrors | null {

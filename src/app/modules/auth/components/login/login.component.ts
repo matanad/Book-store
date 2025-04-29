@@ -2,7 +2,6 @@ import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { UserService } from '../../../../core/services/user.service';
-import { take } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -29,19 +28,12 @@ export class LoginComponent implements OnInit {
 
   handleSubmit(form: NgForm) {
     this.isUserValid = true;
-    this.userService
-      .login(this.email, this.password, this.isAdminRoute)
-      .pipe(take(1))
-      .subscribe(
-        (res) => {
-          if (res) {
-            this.router.navigate(['/']);
-          } else {
-            this.isUserValid = false;
-          }
-        },
-        (err) => (this.failMsg = err)
-      );
+    this.userService.atteptAuth('login', form.value).subscribe({
+      next: () => this.router.navigateByUrl(''),
+      error: (err) =>
+        (this.failMsg =
+          'The email or password you entered is incorrect. Please try again.'),
+    });
   }
 
   getLoginFailedMsg(msg: string = '') {

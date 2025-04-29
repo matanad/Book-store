@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, catchError, of, take, tap } from 'rxjs';
 import { AsyncStorageService } from './async-storage.service';
-import { OperationQueueService } from './operation-queue.service';
 import { UserService } from './user.service';
 
 @Injectable({
@@ -18,7 +17,6 @@ export class CartService {
 
   constructor(
     private storageService: AsyncStorageService,
-    private queueService: OperationQueueService,
     private userService: UserService
   ) {
     this.query();
@@ -52,83 +50,11 @@ export class CartService {
   }
 
   addBook(bookId: string) {
-    if (this.userID === '') return;
-    this.queueService.addTask(() => {
-      let cartItem: CartItem = new CartItem(bookId);
-      let cartItemIdx = this._cart.items.findIndex(
-        (item) => item.id === bookId
-      );
-
-      if (cartItemIdx >= 0) {
-        this._cart.items[cartItemIdx].quantity++;
-        this._cart.cartCounter++;
-      } else {
-        this._cart.items.push(cartItem);
-        this._cart.cartCounter++;
-      }
-
-      return this.storageService.put(this.CART_DB, this._cart).pipe(
-        take(1),
-        tap({
-          next: (cart) => {
-            this._cartCounterSub.next(cart.cartCounter);
-            this._cartItemsSub.next(cart.items);
-            this._cart = cart;
-          },
-          error: (err) => {
-            this.storageService
-              .get<Cart>(this.CART_DB, this.userID)
-              .pipe(take(1))
-              .subscribe({
-                next: (cart) => {
-                  this._cartCounterSub.next(cart.cartCounter);
-                  this._cartItemsSub.next(cart.items);
-                  this._cart = cart;
-                  console.error(
-                    'Error occurred, data updated from server',
-                    err
-                  );
-                },
-                error: (serverErr) => {
-                  console.error('Error fetching cart from server:', serverErr);
-                },
-              });
-            console.error('Error updating cart, reverting changes', err);
-          },
-        })
-      );
-    });
+    
   }
 
   remove(bookId: string) {
-    this.queueService.addTask(() => {
-      let cartItemIdx = this._cart.items.findIndex(
-        (item) => item.id === bookId
-      );
-      let cartItem = this._cart.items[cartItemIdx];
-
-      if (cartItem === undefined) return of(null);
-
-      this._cart.cartCounter -= cartItem.quantity;
-      this._cart.items.splice(cartItemIdx, 1);
-      this._cartItemsSub.next([...this._cart.items]);
-      this._cartCounterSub.next(this._cart.cartCounter);
-
-      return this.storageService.put(this.CART_DB, this._cart).pipe(
-        take(1),
-        catchError((err) => {
-          console.error(err);
-          return this.storageService.query<Cart>(this.CART_DB).pipe(
-            take(1),
-            tap((cart) => {
-              this._cart = cart[0];
-              this._cartItemsSub.next(cart[0].items);
-              this._cartCounterSub.next(cart[0].cartCounter);
-            })
-          );
-        })
-      );
-    });
+    
   }
 
   purchase() {

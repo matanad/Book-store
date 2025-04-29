@@ -18,7 +18,7 @@
     </div>
     <img src="{{ book.imgUrl }}" alt="{{ book.title }}" />
     <h1>{{ book.title | titlecase }}</h1>
-    <h2>by {{ book.author }}</h2>
+    <h2>by {{ book.author?.name }}</h2>
     <p class="category">{{ book.category }}</p>
     <button class="add-to-cart-btn" (click)="addToCart($event, book.id)">
       Add to cart {{ book.price | currency }}
@@ -33,7 +33,7 @@
   <button
     *ngFor="let i of getPages(); let index = index"
     class="paging-btn"
-    [ngClass]="{ active: filterBy.pageIdx === index + 1 }"
+    [ngClass]="{ active: filterBy.page === index + 1 }"
     (click)="onChangePage(index + 1)"
   >
     {{ index + 1 }}

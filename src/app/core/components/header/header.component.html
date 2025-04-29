@@ -14,9 +14,9 @@
     </button>
     <div class="menu" [class.open]="menuOpen">
       <a [routerLink]="['']">All books</a>
-      <a *ngIf="!currUesr.id" [routerLink]="['auth', 'login']">Login</a>
-      <a *ngIf="!currUesr.id" [routerLink]="['auth', 'signup']">Signup</a>
-      <a *ngIf="currUesr.id" [routerLink]="['account']">
+      <a *ngIf="!currUesr.email" [routerLink]="['auth', 'login']">Login</a>
+      <a *ngIf="!currUesr.email" [routerLink]="['auth', 'signup']">Signup</a>
+      <a *ngIf="currUesr.email" [routerLink]="['account']">
         {{ currUesr.firstName | titlecase }}
       </a>
       <a *ngIf="currUesr.isAdmin" [routerLink]="['admin/books']">Admin</a>
